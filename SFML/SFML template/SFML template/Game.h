@@ -1,7 +1,10 @@
 #pragma once
 #include <SFML\Graphics.hpp>
 #include <string>
-#include "PolyMorphcpp.cpp"
+#include "PolyMorph.h"
+#include "Toolbar.h"
+#include "DrawStatus.h"
+#include "Paint.h"
 
 
 class Game {			//game class. should have render, update/events, quit and initialize.
@@ -12,7 +15,7 @@ public:
 	Game(const Game& other) = delete;					//no deep copying a game object
 	Game(Game &&other) = delete;						//no moving game object
 	~Game();
-
+	
 	void main_menu();
 	void update();					//update logic
 	void render();					//rende r
@@ -22,22 +25,18 @@ public:
 private:
 	
 	Shape* shape = nullptr;
-	
-	std::vector <Shape*> storeshapes;
-	
+	Paint* paint = nullptr;
+	Toolbar toolbar;
+	std::vector<drawstatus> status;	//stores the drawstatus of shapes
+	std::vector <Shape*> storeshapes;		//store shapes to be drawn onto the screen.
+	std::vector<Paint*> storepaint;			//stores vectors to be painted on the screen.
+	bool drawsecondline = false;		
 	bool quitgame = false;			//quit game
 	bool MainMenu = true;		
+	bool drawred = false;
 	
-	bool drawsecondline = false;
-	bool drawline = false;
-	bool drawcube = false;
-	bool drawcircle = false;
-	bool drawspline = false;
 	
-	int FrameCounter = 0;						//frame counter
 	sf::Mouse mouse;
-	
-	
 	sf::Event event;					//events class
 	sf::RenderWindow createwindow;		//windows class
 	bool GameOver = false;				//gameover boolean

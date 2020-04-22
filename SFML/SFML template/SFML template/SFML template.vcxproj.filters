@@ -21,6 +21,18 @@
     <ClInclude Include="Game.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="PolyMorph.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Toolbar.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawStatus.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Paint.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -32,7 +44,13 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PolyMorphcpp.cpp">
+    <ClCompile Include="PolyMorph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Toolbar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Paint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

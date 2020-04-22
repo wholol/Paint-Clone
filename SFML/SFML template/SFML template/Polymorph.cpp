@@ -158,7 +158,6 @@ void spline::drawshape(sf::RenderWindow& createwindow)  {
 	}
 
 		sf::VertexArray splinepoints(sf::LinesStrip);		//initialize 720 points
-		
 			
 		for (float i = 0; i < 1; i+=0.01f) {
 			float a = (1 - i) * (1 - i);

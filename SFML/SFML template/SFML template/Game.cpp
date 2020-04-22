@@ -6,36 +6,29 @@ Game::Game(int screenwidth, int screenheight, const std::string& title, int fram
 	:createwindow(sf::VideoMode(screenwidth, screenheight), title),
 	toolbar(screenwidth , screenheight)
 {
-	for (int i = 0; i < 5; ++i) {
+	for (int i = 0; i <= 11; ++i) {
 		status.push_back({ false , false  , false });
 	}
 }
-
 
 
 void Game::render() {		//rendering
 
 	toolbar.DrawMenuBar(createwindow);			//draw menu bar
 	
-
 	if (shape != nullptr && std::any_of(status.begin(), status.end(), [](drawstatus &x) {return x.drawingEntity == true;})) { //draw shape if it is not nullptr and it is in progress of drawing
 		shape->drawshape(createwindow);
 	}
 	
-	
+	for (const auto &x : storepaint) {		//draw all shapes
+			x->drawpaint(createwindow, toolbar);
+	}
 
 	for (const auto &x : storeshapes) {		//draw all shapes
 		x->drawshape(createwindow);
 	}
 
-	for (const auto &x : storepaint) {		//draw all shapes
-		x->drawpaint(createwindow);
-	}
-
-
-	
 	 createwindow.display();
-	
 }
 
 void Game::main_menu()
@@ -46,7 +39,7 @@ void Game::main_menu()
 void Game::update() {		//update game /logic
 
 	if (std::any_of(status.begin(), status.end(), [](drawstatus &x) {return x.drawingEntity == true; }) 
-		&& sf::Mouse::isButtonPressed(sf::Mouse::Left))	//if the user wants to input function onto screen
+		&& sf::Mouse::isButtonPressed(sf::Mouse::Left))	//if the user wants to input function onto screen, press left
 	{
 		std::for_each(status.begin(), status.end(), [](drawstatus &x) { 
 			if (x.drawingEntity == true) {
@@ -60,7 +53,7 @@ void Game::update() {		//update game /logic
 		storepaint.emplace_back(paint);
 	}
 
-	if (shape != nullptr && std::any_of(status.begin(), status.end(), [](drawstatus &x) {return x.drawnEntity == true; })) {
+	if (std::any_of(status.begin(), status.end(), [](drawstatus &x) {return x.drawnEntity == true; })) {
 		std::for_each(status.begin(), status.end(), [](drawstatus &x) {	//reset all entity status to false.
 			x.drawnEntity = false;
 			x.drawingEntity = false;
@@ -78,7 +71,7 @@ void Game::update() {		//update game /logic
 		}
 	}
 
-	if (toolbar.ChooseFeature( mouse , createwindow ) == draw::line && !status[0].initializeEntity) {		//allocate heap for line
+	if (toolbar.ChooseFeature( mouse , createwindow ) == draw::line) {		//allocate heap for line
 		if (!(std::any_of(storeshapes.cbegin(), storeshapes.cend(), [&](Shape* s) {return shape == s; }))) {
 			delete shape;			//delete shapes that are not emplaced back into the store shapes vector
 			shape = nullptr;
@@ -88,17 +81,16 @@ void Game::update() {		//update game /logic
 		status[0].initializeEntity = true;	//iniitialize entity
 	}
 
-	if (toolbar.ChooseFeature( mouse , createwindow) == draw::cube && !status[1].initializeEntity) {	//allocate heap for cube
+	if (toolbar.ChooseFeature( mouse , createwindow) == draw::cube) {	//allocate heap for cube
 		if (!(std::any_of(storeshapes.cbegin(), storeshapes.cend(), [&](Shape* s) {return shape == s; }))) {
 			delete shape;			//delete instatiated shapes that are not emplaced back into the store shapes vector
 			shape = nullptr;
 		}
-
 		shape = new cube();				//create new cube object
 		status[1].initializeEntity = true;	//initialize entity
 	}
 
-	if (toolbar.ChooseFeature(mouse , createwindow) == draw::spline && !status[2].initializeEntity) {
+	if (toolbar.ChooseFeature(mouse , createwindow) == draw::spline) {
 		if (!(std::any_of(storeshapes.cbegin(), storeshapes.cend(), [&](Shape* s) {return shape == s; }))) {
 			delete shape;			//delete instatiated shapes that are not emplaced back into the store shapes vector
 			shape = nullptr;
@@ -108,13 +100,14 @@ void Game::update() {		//update game /logic
 		status[2].initializeEntity = true;	//initialize entity
 	}
 
-	if (toolbar.ChooseFeature(mouse , createwindow) == draw::circle && !status[3].initializeEntity) {
+	if (toolbar.ChooseFeature(mouse , createwindow) == draw::circle) {
 		if (!(std::any_of(storeshapes.cbegin(), storeshapes.cend(), [&](Shape* s) {return shape == s; }))) {
 			delete shape;			//delete instatiated shapes that are not emplaced back into the store shapes vector
 			shape = nullptr;
 		}
 
 		shape = new circle();
+		
 		status[3].initializeEntity = true;	//initialize entity
 	}
 	
@@ -131,7 +124,6 @@ void Game::update() {		//update game /logic
 		}
 	}
 
-	
 	if (status[2].initializeEntity) {			//if space is pressed
 
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
@@ -156,6 +148,19 @@ void Game::update() {		//update game /logic
 				shape->storenodes[1].loc.posy = mouse.getPosition(createwindow).y;
 				shape->storenodes[2].loc.posx = mouse.getPosition(createwindow).x;		//move the newest node around
 				shape->storenodes[2].loc.posy = mouse.getPosition(createwindow).y;
+			}
+		}
+	}
+
+	pf.setStatus(toolbar.ChooseFeature(mouse, createwindow), status);
+
+	for (int i = 4; i < status.size(); ++i) {			//for each paint status
+		if (status[i].initializeEntity) {		//if it has been initializd by the setstatus function
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {		//if right clicked
+				paint = pf.getObject(i);					//make new object of type i if right click is pressed.
+
+				paint->setMousePos(mouse, createwindow);
+				storepaint.emplace_back(paint);
 			}
 		}
 	}
@@ -187,16 +192,7 @@ void Game::update() {		//update game /logic
 			}
 	}
 
-	
-
-	
-	createwindow.clear(sf::Color::White);
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
-		paint = new Red();
-		paint->setMousePos(mouse, createwindow);
-		storepaint.emplace_back(paint);
-	}
+		createwindow.clear(sf::Color::White);
 	
 }
 
@@ -212,7 +208,6 @@ bool Game::quit()			//call quit game
 		}
 	}
 	return quitgame;
-	
 }
 
 Game::~Game()	{
@@ -222,4 +217,10 @@ Game::~Game()	{
 		x = nullptr;
 	}
 	storeshapes.clear();
+
+	for (auto& x : storepaint) {
+		delete x;
+		x = nullptr;
+	}
+	storepaint.clear();
 }

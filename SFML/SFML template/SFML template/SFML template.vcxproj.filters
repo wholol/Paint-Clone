@@ -33,6 +33,12 @@
     <ClInclude Include="Paint.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="PaintFactory.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeFactory.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">

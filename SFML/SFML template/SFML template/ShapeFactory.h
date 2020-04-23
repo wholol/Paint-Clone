@@ -52,7 +52,6 @@ public:
 				*shape = nullptr;
 			}
 	
-
 			if (*shape == nullptr) {
 				p = new spline();
 				*shape = p;
@@ -77,7 +76,7 @@ public:
 		auto f = shapestatuspair.find(d);
 		if (f != shapestatuspair.end()) {
 			status[f->second].initializeEntity = true;		//initialize entity
-			for (int i = 0; i <= 3; ++i) {		//reset all othr entitiies to false.
+			for (int i = 0; i < status.size(); ++i) {		//reset all othr entitiies to false.
 				if (i != f->second) {
 					status[i].initializeEntity = false;
 				}
@@ -86,7 +85,7 @@ public:
 	}
 
 	~ShapeFactory() {
-		p = nullptr;			//p's memeory is deleted by shape in the game class
+		p = nullptr;			//p's memeory is deleted by shape in the game.cpp's destructor
 	}
 
 

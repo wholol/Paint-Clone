@@ -18,45 +18,45 @@ public:
 	}
 
 
-	Paint* getObject(int status) {
+	void getObject(Paint** paint,int status) {
 		if (status == 4) {
 			p = new Red();
-			return p;
+			*paint = p;
 		}
 		
 		else if (status == 5) {
 			p = new Blue();
-			return p;
+			*paint = p;
 		}
 
 		else if (status == 6) {
 			p = new Magenta();
-			return p;
+			*paint = p;
 		}
 
 		else if (status == 7) {
 			p = new Green();
-			return p;
+			*paint = p;
 		}
 
 		else if (status == 8) {
 			p = new Yellow();
-			return p;
+			*paint = p;
 		}
 
 		else if (status == 9) {
 			p = new Black();
-			return p;
+			*paint = p;
 		}
 
 		else if (status == 10) {
 			p = new Cyan();
-			return p;
+			*paint = p;
 		}
 
 		else if (status == 11) {
 			p = new White();
-			return p;
+			*paint = p;
 		}
 	
 	}

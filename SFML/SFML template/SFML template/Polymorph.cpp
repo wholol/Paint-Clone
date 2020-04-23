@@ -4,11 +4,11 @@
 #include "PolyMorph.h"
 
 void Shape::makenode(const sf::Mouse& mousepos, sf::RenderWindow& createwindow) {		//get the pointer of the node
-	node newnode;
-	newnode.loc.setLoc(mousepos, createwindow);			//set the location of the newnode		
-	if (storenodes.size() < maxnodes) {
-		storenodes.emplace_back(newnode);
-	}
+		node newnode;
+		newnode.loc.setLoc(mousepos, createwindow);			//set the location of the newnode		
+		if (storenodes.size() < maxnodes) {
+			storenodes.emplace_back(newnode);
+		}
 }
 
 void Shape::resizeShapes(const sf::Mouse& mouse, sf::RenderWindow& createwindow) {
@@ -26,6 +26,17 @@ void Shape::resizeShapes(const sf::Mouse& mouse, sf::RenderWindow& createwindow)
 	}
 }
 
+void Shape::setMousePos(const sf::Mouse & mouse, sf::RenderWindow & createwindow, Shape & shape, const Toolbar & toolbar)
+{
+	if (shape.storenodes[1].loc.posy >= toolbar.BoundaryLimit()) {
+		shape.storenodes[1].loc.posx = mouse.getPosition(createwindow).x;
+		shape.storenodes[1].loc.posy = mouse.getPosition(createwindow).y;
+	}
+	if (shape.storenodes[1].loc.posy <= toolbar.BoundaryLimit()) {
+		shape.storenodes[1].loc.posy = toolbar.BoundaryLimit();
+	}
+}
+
 	
 line::line() : Shape()		//constructor
 {
@@ -35,6 +46,7 @@ line::line() : Shape()		//constructor
 
 
 void line::drawshape(sf::RenderWindow& createwindow, const Toolbar& toolbar){
+
 	for (int i = 0; i < maxnodes; ++i) {		//construct node points
 		circlepoints.emplace_back(pointradius);
 		circlepoints[i].setFillColor(sf::Color::Red);
@@ -55,7 +67,7 @@ void line::drawshape(sf::RenderWindow& createwindow, const Toolbar& toolbar){
 
 	createwindow.draw(line, 2, sf::Lines);
 }
-	
+
 
 cube::cube() : Shape() {
 	maxnodes = 2;
@@ -69,7 +81,6 @@ cube::cube() : Shape() {
 
 void cube::drawshape(sf::RenderWindow& createwindow, const Toolbar& toolbar)  {
 
-	
 	for (int i = 0; i < maxnodes; ++i) {
 		circlepoints[i].setPosition(sf::Vector2f(storenodes[i].loc.posx - pointradius, storenodes[i].loc.posy - pointradius));
 		createwindow.draw(circlepoints[i]);
@@ -140,6 +151,10 @@ void circle::drawshape(sf::RenderWindow& createwindow, const Toolbar& toolbar) {
 		createwindow.draw(points);
 }
 
+void circle::setMousePos(const sf::Mouse & mouse, sf::RenderWindow & createwindow, Shape & shape, const Toolbar & toolbar)
+{
+}
+
 
 spline::spline():Shape() {
 	maxnodes = 3;
@@ -177,4 +192,8 @@ void spline::drawshape(sf::RenderWindow& createwindow, const Toolbar& toolbar)  
 		}
 
 		createwindow.draw(splinepoints);
+}
+
+void spline::setMousePos(const sf::Mouse & mouse, sf::RenderWindow & createwindow, Shape & shape, const Toolbar & toolbar)
+{
 }

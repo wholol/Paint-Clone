@@ -73,6 +73,27 @@ void Game::update() {		//update game /logic
 	sf.setStatus(toolbar.ChooseFeature(mouse, createwindow), status);	//set the status of the shape
 	sf.getObject(&shape, storeshapes, status, toolbar.ChooseFeature(mouse, createwindow));	//stop geenrating objects everytime	
 		
+	for (int i = 0; i <= 3; ++i) {
+		if (status[i].initializeEntity) {
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
+				status[i].drawingEntity = true;
+			}
+
+			if (status[i].drawingEntity) {
+
+				shape->makenode(mouse, createwindow);		//make first node	
+				shape->makenode(mouse, createwindow);		//make second node	
+
+				if (i == 2) {		//spline. requries 3 nodes instead of 2
+				shape->makenode(mouse, createwindow);		//make second node	
+				}
+
+				shape->setMousePos(mouse, createwindow, *shape,toolbar);
+			}
+			
+		}
+	}
+	/*
 	if (status[0].initializeEntity) {			//line case
 		
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
@@ -80,8 +101,7 @@ void Game::update() {		//update game /logic
 		}
 
 		if (status[0].drawingEntity) {
-			shape->makenode(mouse, createwindow);		//make first node	
-			shape->makenode(mouse, createwindow);		//make second node	
+			
 			shape->storenodes[1].loc.posx = mouse.getPosition(createwindow).x;		//move the newest node around
 			shape->storenodes[1].loc.posy = mouse.getPosition(createwindow).y;
 			if (shape->storenodes[1].loc.posy <= toolbar.BoundaryLimit()) {
@@ -118,26 +138,11 @@ void Game::update() {		//update game /logic
 		}
 	}
 
-	/*paint logic*/
-	pf.setStatus(toolbar.ChooseFeature(mouse, createwindow), status);
-
-	for (int i = 4; i < status.size(); ++i) {			//for each paint status (DO NOT loop for shapes)
-		if (status[i].initializeEntity) {		//if it has been initializd by the setstatus function
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {		//if right clicked
-				paint = pf.getObject(i);					//make new object of type i if right click is pressed.
-
-				paint->setMousePos(mouse, createwindow);
-				storepaint.emplace_back(paint);
-			}
-		}
-	}
-
 	if (status[1].initializeEntity) {		//cube case
 		
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
 			status[1].drawingEntity = true;
 		}
-
 			if (status[1].drawingEntity) {
 				shape->makenode(mouse, createwindow);		//make first node	
 				shape->makenode(mouse, createwindow);		//make second node	
@@ -157,9 +162,21 @@ void Game::update() {		//update game /logic
 				shape->storenodes[1].loc.posx = mouse.getPosition(createwindow).x;		//move the newest node around
 				shape->storenodes[1].loc.posy = mouse.getPosition(createwindow).y;		//move the newest node around
 			}
-	}
+	}*/
 
-		createwindow.clear(sf::Color::White);
+	/*paint logic*/
+	pf.setStatus(toolbar.ChooseFeature(mouse, createwindow), status);
+	for (int i = 4; i < status.size(); ++i) {			//for each paint status (DO NOT loop for shapes)
+		if (status[i].initializeEntity) {		//if it has been initializd by the setstatus function
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {		//if right clicked
+				pf.getObject(&paint, i);					//make new object of type i if right click is pressed.
+				paint->setMousePos(mouse, createwindow);
+				storepaint.emplace_back(paint);
+			}
+		}
+	}
+	
+	createwindow.clear(sf::Color::White);
 	
 }
 
@@ -189,5 +206,11 @@ Game::~Game()	{
 		delete x;
 		x = nullptr;
 	}
+
+	if (!(std::any_of(storeshapes.cbegin(), storeshapes.cend(), [&](Shape* s) {return shape == s; }))) {
+		delete shape;			//delete instatiated shapes that are not emplaced back into the store shapes vector
+		shape = nullptr;
+	}
+
 	storepaint.clear();
 }

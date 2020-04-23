@@ -25,9 +25,9 @@ struct Shape {
 
 	int maxnodes;							//set the max number of nodes.
 	static constexpr uint8_t pointradius = 4;	//node radius
-
 	void makenode(const sf::Mouse& mousepos, sf::RenderWindow& createwindow);
 	void resizeShapes(const sf::Mouse& mouse, sf::RenderWindow& createwindow);
+	virtual void setMousePos(const sf::Mouse& mouse, sf::RenderWindow &createwindow, Shape& shape, const Toolbar& toolbar);
 	virtual void drawshape(sf::RenderWindow& createwindow,const Toolbar& toolbar) = 0;		//indicate that there are different draw shape fucntions
 };
 
@@ -39,17 +39,19 @@ struct line : public Shape {
 
 struct cube : public Shape {
 	cube();
-	virtual void drawshape(sf::RenderWindow& createwindow, const Toolbar& toolbar)  override;
+	void drawshape(sf::RenderWindow& createwindow, const Toolbar& toolbar)  override;
 };
 
 struct circle : public Shape {
 
 	circle();
-	virtual void drawshape(sf::RenderWindow& createwindow, const Toolbar& toolbar)  override;
+	void drawshape(sf::RenderWindow& createwindow, const Toolbar& toolbar)  override;
+	void setMousePos(const sf::Mouse& mouse, sf::RenderWindow &createwindow, Shape& shape, const Toolbar& toolbar) override;
 
 };
 
 struct spline : public Shape {
 	spline();
 	virtual void drawshape(sf::RenderWindow& createwindow, const Toolbar& toolbar)  override;
+	void setMousePos(const sf::Mouse& mouse, sf::RenderWindow &createwindow, Shape& shape, const Toolbar& toolbar) override;
 };

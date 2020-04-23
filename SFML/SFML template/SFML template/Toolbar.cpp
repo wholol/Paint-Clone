@@ -57,9 +57,7 @@ void Toolbar::DrawMenuBar(sf::RenderWindow& createwindow) {
 
 draw Toolbar::ChooseFeature(const sf::Mouse& mouse, sf::RenderWindow& createwindow) {
 
-
-	//choos the feature to be used
-
+	//choose the feature to be used
 	//shapes features
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 		if (mouse.getPosition(createwindow).x >= 0 && mouse.getPosition(createwindow).x <= PaintTileWidth && mouse.getPosition(createwindow).y >= 0 && mouse.getPosition(createwindow).y <= PaintTileHeight) {

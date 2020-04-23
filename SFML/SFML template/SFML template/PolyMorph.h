@@ -1,6 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-
+#include "Toolbar.h"
 
 struct Shape;
 
@@ -28,28 +28,28 @@ struct Shape {
 
 	void makenode(const sf::Mouse& mousepos, sf::RenderWindow& createwindow);
 	void resizeShapes(const sf::Mouse& mouse, sf::RenderWindow& createwindow);
-	virtual void drawshape(sf::RenderWindow& createwindow) = 0;		//indicate that there are different draw shape fucntions
+	virtual void drawshape(sf::RenderWindow& createwindow,const Toolbar& toolbar) = 0;		//indicate that there are different draw shape fucntions
 };
 
 struct line : public Shape {
 
 	line();
-	void drawshape(sf::RenderWindow& createwindow) override;
+	void drawshape(sf::RenderWindow& createwindow, const Toolbar& toolbar) override;
 };
 
 struct cube : public Shape {
 	cube();
-	virtual void drawshape(sf::RenderWindow& createwindow)  override;
+	virtual void drawshape(sf::RenderWindow& createwindow, const Toolbar& toolbar)  override;
 };
 
 struct circle : public Shape {
 
 	circle();
-	virtual void drawshape(sf::RenderWindow& createwindow)  override;
+	virtual void drawshape(sf::RenderWindow& createwindow, const Toolbar& toolbar)  override;
 
 };
 
 struct spline : public Shape {
 	spline();
-	virtual void drawshape(sf::RenderWindow& createwindow)  override;
+	virtual void drawshape(sf::RenderWindow& createwindow, const Toolbar& toolbar)  override;
 };

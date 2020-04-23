@@ -65,8 +65,8 @@ public:
 
 		auto f = drawstatuspair.find(d);
 		if (f != drawstatuspair.end()) {
-			status[f->second].initializeEntity = true;
-			for (int i = 4; i < status.size(); ++i) {
+			status[f->second].initializeEntity = true;		
+			for (int i = 0; i < status.size(); ++i) {		//reset other paints to false 
 				if (i != f->second) {
 					status[i].initializeEntity = false;
 				}

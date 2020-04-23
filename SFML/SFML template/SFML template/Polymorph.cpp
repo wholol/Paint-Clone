@@ -19,7 +19,7 @@ void Shape::resizeShapes(const sf::Mouse& mouse, sf::RenderWindow& createwindow)
 			storenodes[i].loc.posx = mouse.getPosition(createwindow).x;
 			storenodes[i].loc.posy = mouse.getPosition(createwindow).y;
 		}
-
+	
 		else {
 			circlepoints[i].setFillColor(sf::Color::Red);
 		}
@@ -34,7 +34,7 @@ line::line() : Shape()		//constructor
 }
 
 
-void line::drawshape(sf::RenderWindow& createwindow)  {
+void line::drawshape(sf::RenderWindow& createwindow, const Toolbar& toolbar){
 	for (int i = 0; i < maxnodes; ++i) {		//construct node points
 		circlepoints.emplace_back(pointradius);
 		circlepoints[i].setFillColor(sf::Color::Red);
@@ -47,8 +47,12 @@ void line::drawshape(sf::RenderWindow& createwindow)  {
 
 	for (int i = 0; i < maxnodes; ++i) {
 		circlepoints[i].setPosition(sf::Vector2f(storenodes[i].loc.posx - pointradius, storenodes[i].loc.posy - pointradius));
+		if (storenodes[i].loc.posy - pointradius <= toolbar.BoundaryLimit()) {
+			circlepoints[i].setPosition(sf::Vector2f(storenodes[i].loc.posx - pointradius, toolbar.BoundaryLimit() + 2 - pointradius));
+		}
 		createwindow.draw(circlepoints[i]);
 	}
+
 	createwindow.draw(line, 2, sf::Lines);
 }
 	
@@ -63,7 +67,7 @@ cube::cube() : Shape() {
 }
 
 
-void cube::drawshape(sf::RenderWindow& createwindow)  {
+void cube::drawshape(sf::RenderWindow& createwindow, const Toolbar& toolbar)  {
 
 	
 	for (int i = 0; i < maxnodes; ++i) {
@@ -104,12 +108,11 @@ void cube::drawshape(sf::RenderWindow& createwindow)  {
 circle::circle() : Shape() {
 	maxnodes = 2;
 	storenodes.reserve(maxnodes);
-	
 
 }
 
 
-void circle::drawshape(sf::RenderWindow& createwindow) {
+void circle::drawshape(sf::RenderWindow& createwindow, const Toolbar& toolbar) {
 	
 	for (int i = 0; i < maxnodes; ++i) {
 		circlepoints.emplace_back(pointradius);
@@ -145,7 +148,7 @@ spline::spline():Shape() {
 }
 
 	
-void spline::drawshape(sf::RenderWindow& createwindow)  {
+void spline::drawshape(sf::RenderWindow& createwindow, const Toolbar& toolbar)  {
 
 	for (int i = 0; i < maxnodes; ++i) {
 		circlepoints.emplace_back(pointradius);
@@ -174,5 +177,4 @@ void spline::drawshape(sf::RenderWindow& createwindow)  {
 		}
 
 		createwindow.draw(splinepoints);
-	
 }

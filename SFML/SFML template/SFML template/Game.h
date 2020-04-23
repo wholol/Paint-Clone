@@ -6,6 +6,7 @@
 #include "DrawStatus.h"
 #include "Paint.h"
 #include "PaintFactory.h"
+#include "ShapeFactory.h"
 
 class Game {			//game class. should have render, update/events, quit and initialize.
 
@@ -24,6 +25,7 @@ public:
 
 private:
 	PaintFactory pf;
+	ShapeFactory sf;
 	Shape* shape = nullptr;
 	Paint* paint = nullptr;
 	Toolbar toolbar;

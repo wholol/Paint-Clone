@@ -18,7 +18,6 @@ void Paint::ChangeBrushSize()
 void Paint::setMousePos(const sf::Mouse& mouse, sf::RenderWindow &createwindow) {
 	mouseposx = mouse.getPosition(createwindow).x;
 	mouseposy = mouse.getPosition(createwindow).y;
-	
 }
 
 
@@ -33,7 +32,6 @@ void Red::drawpaint(sf::RenderWindow &createwindow,const Toolbar& toolbar) {
 	}
 	createwindow.draw(circle);
 }
-
 
 
 void Yellow::drawpaint(sf::RenderWindow &createwindow, const Toolbar& toolbar) {

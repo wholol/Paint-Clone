@@ -1,7 +1,8 @@
 #pragma once
 #include <unordered_map>
+#include <iostream>
 #include "Toolbar.h"
-#include "PolyMorph.h"
+#include "Shape.h"
 #include "DrawStatus.h"
 
 class ShapeFactory {
@@ -55,6 +56,7 @@ public:
 			if (*shape == nullptr) {
 				p = new spline();
 				*shape = p;
+				std::cout << "shape generated of type: " << typeid(**shape).name() << std::endl;
 			}
 		}
 
@@ -68,6 +70,7 @@ public:
 			if (*shape == nullptr) {
 				p = new circle();
 				*shape = p;
+				std::cout << "deleting shape entity of type:" << typeid(**shape).name() << std::endl;
 			}
 		}
 	}

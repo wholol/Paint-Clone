@@ -1,12 +1,13 @@
 #pragma once
 #include <SFML\Graphics.hpp>
 #include <string>
-#include "PolyMorph.h"
+#include "Shape.h"
 #include "Toolbar.h"
 #include "DrawStatus.h"
 #include "Paint.h"
 #include "PaintFactory.h"
 #include "ShapeFactory.h"
+#include "Undo.h"
 
 class Game {			//game class. should have render, update/events, quit and initialize.
 
@@ -22,8 +23,8 @@ public:
 	void render();					//rende r
 	bool quit();					//quit the window
 
-
 private:
+	Undo undo;
 	PaintFactory pf;
 	ShapeFactory sf;
 	Shape* shape = nullptr;
@@ -31,13 +32,10 @@ private:
 	Toolbar toolbar;
 	std::vector<drawstatus> status;	//stores the drawstatus of shapes
 	std::vector <Shape*> storeshapes;		//store shapes to be drawn onto the screen.
-	std::vector<Paint*> storepaint;			//stores vectors to be painted on the screen.
-	bool drawsecondline = false;		
+	std::vector<Paint*> storepaint;			//stores vectors to be painted on the screen.	
 	bool quitgame = false;			//quit game
 	bool MainMenu = true;		
-	bool drawred = false;
-	
-	
+
 	sf::Mouse mouse;
 	sf::Event event;					//events class
 	sf::RenderWindow createwindow;		//windows class

@@ -168,13 +168,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="DrawStatus.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Paint.h" />
     <ClInclude Include="PaintFactory.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="PolyMorph.h" />
+    <ClInclude Include="Shape.h" />
     <ClInclude Include="ShapeFactory.h" />
     <ClInclude Include="Toolbar.h" />
+    <ClInclude Include="Undo.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
@@ -186,8 +188,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="PolyMorph.cpp" />
+    <ClCompile Include="Shape.cpp" />
     <ClCompile Include="Toolbar.cpp" />
+    <ClCompile Include="Undo.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

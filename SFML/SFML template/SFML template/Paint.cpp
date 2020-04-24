@@ -4,13 +4,10 @@
 Paint::Paint() 
 	:circle(minbrushradius)
 {
-
 }
 
 void Paint::ChangeBrushSize()
-	
 {
-	
 
 }
 
@@ -21,7 +18,7 @@ void Paint::setMousePos(const sf::Mouse& mouse, sf::RenderWindow &createwindow) 
 }
 
 
-void Red::drawpaint(sf::RenderWindow &createwindow,const Toolbar& toolbar) {
+void Red::drawEntity(sf::RenderWindow &createwindow,const Toolbar& toolbar) {
 	
 	uint8_t radius = minbrushradius;
 	circle.setRadius(radius);
@@ -34,7 +31,7 @@ void Red::drawpaint(sf::RenderWindow &createwindow,const Toolbar& toolbar) {
 }
 
 
-void Yellow::drawpaint(sf::RenderWindow &createwindow, const Toolbar& toolbar) {
+void Yellow::drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar) {
 	uint8_t radius = minbrushradius;
 	circle.setRadius(radius);
 	circle.setFillColor(sf::Color::Yellow);
@@ -46,8 +43,7 @@ void Yellow::drawpaint(sf::RenderWindow &createwindow, const Toolbar& toolbar) {
 
 }
 
-
-void Blue::drawpaint(sf::RenderWindow &createwindow, const Toolbar& toolbar) {
+void Blue::drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar) {
 	uint8_t radius = minbrushradius;
 	circle.setRadius(radius);
 	circle.setFillColor(sf::Color::Blue);
@@ -61,7 +57,7 @@ void Blue::drawpaint(sf::RenderWindow &createwindow, const Toolbar& toolbar) {
 
 
 
-void Black::drawpaint(sf::RenderWindow &createwindow, const Toolbar& toolbar) {
+void Black::drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar) {
 	uint8_t radius = minbrushradius;
 	circle.setRadius(radius);
 	circle.setFillColor(sf::Color::Black);
@@ -73,7 +69,7 @@ void Black::drawpaint(sf::RenderWindow &createwindow, const Toolbar& toolbar) {
 }
 
 
-void Magenta::drawpaint(sf::RenderWindow &createwindow, const Toolbar& toolbar) {
+void Magenta::drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar) {
 	uint8_t radius = minbrushradius;
 	circle.setRadius(radius);
 	circle.setFillColor(sf::Color::Magenta);
@@ -86,7 +82,7 @@ void Magenta::drawpaint(sf::RenderWindow &createwindow, const Toolbar& toolbar) 
 
 
 
-void Cyan::drawpaint(sf::RenderWindow &createwindow, const Toolbar& toolbar) {
+void Cyan::drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar) {
 	uint8_t radius = minbrushradius;
 	circle.setRadius(radius);
 	circle.setFillColor(sf::Color::Cyan);
@@ -98,7 +94,7 @@ void Cyan::drawpaint(sf::RenderWindow &createwindow, const Toolbar& toolbar) {
 }
 
 
-void Green::drawpaint(sf::RenderWindow &createwindow, const Toolbar& toolbar) {
+void Green::drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar) {
 	uint8_t radius = minbrushradius;
 	circle.setRadius(radius);
 	circle.setFillColor(sf::Color::Green);
@@ -110,8 +106,7 @@ void Green::drawpaint(sf::RenderWindow &createwindow, const Toolbar& toolbar) {
 }
 
 
-
-void White::drawpaint(sf::RenderWindow &createwindow, const Toolbar& toolbar) {
+void White::drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar) {
 	uint8_t radius = minbrushradius;
 	circle.setRadius(radius);
 	circle.setFillColor(sf::Color::White);

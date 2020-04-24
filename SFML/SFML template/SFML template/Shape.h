@@ -1,50 +1,49 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "Toolbar.h"
+#include "Entity.h"
 
-struct Shape;
+struct Shape : public Entity {
+	
+	struct location {		//location variables
+		float posx;
+		float posy;
 
-struct location {		//location variables
-	float posx;
-	float posy;
+		void setLoc(const sf::Mouse& mousepos, sf::RenderWindow& createwindow) {		//set location 
+			this->posx = mousepos.getPosition(createwindow).x;
+			this->posy = mousepos.getPosition(createwindow).y;
+		}
+	};
 
-	void setLoc(const sf::Mouse& mousepos, sf::RenderWindow& createwindow) {		//set location 
-		this->posx = mousepos.getPosition(createwindow).x;
-		this->posy = mousepos.getPosition(createwindow).y;
-	}
-};
+	struct node {			//node variables
+		location loc;		//location
+	};
 
-struct node {			//node variables
-	location loc;		//location
-};
-
-struct Shape {
 	std::vector<node> storenodes;			//store node characteristics for a shape
 	std::vector<sf::CircleShape> circlepoints;	//stores the nodes for circles
 
 	int maxnodes;								//set the max number of nodes.
 	static constexpr uint8_t pointradius = 4;	//node radius
+
 	void makenode(const sf::Mouse& mousepos, sf::RenderWindow& createwindow);
 	void resizeShapes(const sf::Mouse& mouse, sf::RenderWindow& createwindow, const Toolbar& toolbar);
 	virtual void setMousePos(const sf::Mouse& mouse, sf::RenderWindow &createwindow, Shape& shape, const Toolbar& toolbar);
-	virtual void drawshape(sf::RenderWindow& createwindow,const Toolbar& toolbar) = 0;		//indicate that there are different draw shape fucntions
 };
 
 struct line : public Shape {
-
 	line();
-	void drawshape(sf::RenderWindow& createwindow, const Toolbar& toolbar) override;
+	void drawEntity(sf::RenderWindow& createwindow, const Toolbar& toolbar) override;
 };
 
 struct cube : public Shape {
 	cube();
-	void drawshape(sf::RenderWindow& createwindow, const Toolbar& toolbar)  override;
+	void drawEntity(sf::RenderWindow& createwindow, const Toolbar& toolbar) override;
 };
 
 struct circle : public Shape {
 
 	circle();
-	void drawshape(sf::RenderWindow& createwindow, const Toolbar& toolbar)  override;
+	void drawEntity(sf::RenderWindow& createwindow, const Toolbar& toolbar) override;
 	void setMousePos(const sf::Mouse& mouse, sf::RenderWindow &createwindow, Shape& shape, const Toolbar& toolbar) override;
 
 };
@@ -52,6 +51,6 @@ struct circle : public Shape {
 struct spline : public Shape {
 	bool drawsecondline = false;
 	spline();
-	virtual void drawshape(sf::RenderWindow& createwindow, const Toolbar& toolbar)  override;
+	void drawEntity(sf::RenderWindow& createwindow, const Toolbar& toolbar) override;
 	void setMousePos(const sf::Mouse& mouse, sf::RenderWindow &createwindow, Shape& shape, const Toolbar& toolbar) override;
 };

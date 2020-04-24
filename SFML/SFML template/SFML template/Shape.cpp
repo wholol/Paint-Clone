@@ -1,7 +1,7 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include <cmath>
-#include "PolyMorph.h"
+#include "Shape.h"
 #include <iostream>
 
 void Shape::makenode(const sf::Mouse& mousepos, sf::RenderWindow& createwindow) {		//get the pointer of the node
@@ -64,7 +64,7 @@ line::line() : Shape()		//constructor
 }
 
 
-void line::drawshape(sf::RenderWindow& createwindow, const Toolbar& toolbar){
+void line::drawEntity(sf::RenderWindow& createwindow, const Toolbar& toolbar){
 
 	for (int i = 0; i < maxnodes; ++i) {		//construct node points
 		circlepoints.emplace_back(pointradius);
@@ -98,7 +98,7 @@ cube::cube() : Shape() {
 }
 
 
-void cube::drawshape(sf::RenderWindow& createwindow, const Toolbar& toolbar)  {
+void cube::drawEntity(sf::RenderWindow& createwindow, const Toolbar& toolbar)  {
 
 	for (int i = 0; i < maxnodes; ++i) {
 		circlepoints[i].setPosition(sf::Vector2f(storenodes[i].loc.posx - pointradius, storenodes[i].loc.posy - pointradius));
@@ -141,7 +141,7 @@ circle::circle() : Shape() {
 }
 
 
-void circle::drawshape(sf::RenderWindow& createwindow, const Toolbar& toolbar) {
+void circle::drawEntity(sf::RenderWindow& createwindow, const Toolbar& toolbar) {
 	
 	for (int i = 0; i < maxnodes; ++i) {
 		circlepoints.emplace_back(pointradius);
@@ -194,7 +194,7 @@ spline::spline():Shape() {
 	
 }
 
-void spline::drawshape(sf::RenderWindow& createwindow, const Toolbar& toolbar)  {
+void spline::drawEntity(sf::RenderWindow& createwindow, const Toolbar& toolbar)  {
 
 	for (int i = 0; i < maxnodes; ++i) {
 		circlepoints.emplace_back(pointradius);

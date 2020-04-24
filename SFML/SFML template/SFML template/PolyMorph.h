@@ -19,14 +19,13 @@ struct node {			//node variables
 };
 
 struct Shape {
-	public:
 	std::vector<node> storenodes;			//store node characteristics for a shape
 	std::vector<sf::CircleShape> circlepoints;	//stores the nodes for circles
 
-	int maxnodes;							//set the max number of nodes.
+	int maxnodes;								//set the max number of nodes.
 	static constexpr uint8_t pointradius = 4;	//node radius
 	void makenode(const sf::Mouse& mousepos, sf::RenderWindow& createwindow);
-	void resizeShapes(const sf::Mouse& mouse, sf::RenderWindow& createwindow);
+	void resizeShapes(const sf::Mouse& mouse, sf::RenderWindow& createwindow, const Toolbar& toolbar);
 	virtual void setMousePos(const sf::Mouse& mouse, sf::RenderWindow &createwindow, Shape& shape, const Toolbar& toolbar);
 	virtual void drawshape(sf::RenderWindow& createwindow,const Toolbar& toolbar) = 0;		//indicate that there are different draw shape fucntions
 };
@@ -51,6 +50,7 @@ struct circle : public Shape {
 };
 
 struct spline : public Shape {
+	bool drawsecondline = false;
 	spline();
 	virtual void drawshape(sf::RenderWindow& createwindow, const Toolbar& toolbar)  override;
 	void setMousePos(const sf::Mouse& mouse, sf::RenderWindow &createwindow, Shape& shape, const Toolbar& toolbar) override;

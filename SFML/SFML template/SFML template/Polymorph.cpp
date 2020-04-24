@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
 #include "PolyMorph.h"
+#include <iostream>
 
 void Shape::makenode(const sf::Mouse& mousepos, sf::RenderWindow& createwindow) {		//get the pointer of the node
 		node newnode;
@@ -11,13 +12,29 @@ void Shape::makenode(const sf::Mouse& mousepos, sf::RenderWindow& createwindow) 
 		}
 }
 
-void Shape::resizeShapes(const sf::Mouse& mouse, sf::RenderWindow& createwindow) {
+void Shape::resizeShapes(const sf::Mouse& mouse, sf::RenderWindow& createwindow, const Toolbar& toolbar) {
 	for (int i = 0; i < storenodes.size(); ++i) {	//for each node
 
 		if (sqrt(pow(storenodes[i].loc.posx - mouse.getPosition(createwindow).x, 2) + pow(storenodes[i].loc.posy - mouse.getPosition(createwindow).y, 2)) < 30.0f) {
 			circlepoints[i].setFillColor(sf::Color::Cyan);
 			storenodes[i].loc.posx = mouse.getPosition(createwindow).x;
 			storenodes[i].loc.posy = mouse.getPosition(createwindow).y;
+
+		/*	if (typeid(*this).name() == "struct circle") {
+				std::cout << "resize circle" << std::endl;
+				float radius = sqrt(pow(storenodes[1].loc.posx - storenodes[0].loc.posx, 2.0f) + pow(storenodes[1].loc.posy - storenodes[0].loc.posy, 2.0f));
+				if (storenodes[0].loc.posy - toolbar.BoundaryLimit() <= radius + 2) {			//check is radius exceeds the boundary
+					float center2mouseradius = sqrt(pow(mouse.getPosition(createwindow).x - storenodes[0].loc.posx, 2.0f) + pow(mouse.getPosition(createwindow).y - storenodes[0].loc.posy, 2.0f));
+					if (center2mouseradius < radius) {			//if the mouse position is lesser than the radius position
+						this->storenodes[1].loc.posy = mouse.getPosition(createwindow).y;
+						this->storenodes[1].loc.posx = mouse.getPosition(createwindow).x;
+					}
+				}
+			}  */
+
+			if (storenodes[i].loc.posy <= toolbar.BoundaryLimit()) {
+				storenodes[i].loc.posy = toolbar.BoundaryLimit();
+			}
 		}
 	
 		else {
@@ -32,7 +49,9 @@ void Shape::setMousePos(const sf::Mouse & mouse, sf::RenderWindow & createwindow
 		shape.storenodes[1].loc.posx = mouse.getPosition(createwindow).x;
 		shape.storenodes[1].loc.posy = mouse.getPosition(createwindow).y;
 	}
+
 	if (shape.storenodes[1].loc.posy <= toolbar.BoundaryLimit()) {
+		shape.storenodes[1].loc.posx = mouse.getPosition(createwindow).x;
 		shape.storenodes[1].loc.posy = toolbar.BoundaryLimit();
 	}
 }
@@ -119,7 +138,6 @@ void cube::drawshape(sf::RenderWindow& createwindow, const Toolbar& toolbar)  {
 circle::circle() : Shape() {
 	maxnodes = 2;
 	storenodes.reserve(maxnodes);
-
 }
 
 
@@ -153,8 +171,22 @@ void circle::drawshape(sf::RenderWindow& createwindow, const Toolbar& toolbar) {
 
 void circle::setMousePos(const sf::Mouse & mouse, sf::RenderWindow & createwindow, Shape & shape, const Toolbar & toolbar)
 {
+	float radius = sqrt(pow(storenodes[1].loc.posx - storenodes[0].loc.posx, 2.0f) + pow(storenodes[1].loc.posy - storenodes[0].loc.posy, 2.0f));	//get the radius
+	
+	if (storenodes[0].loc.posy - toolbar.BoundaryLimit() <= radius + 2) {			//check is radius exceeds the boundary
+		float center2mouseradius = sqrt(pow(mouse.getPosition(createwindow).x - storenodes[0].loc.posx, 2.0f) + pow(mouse.getPosition(createwindow).y - storenodes[0].loc.posy, 2.0f));
+		if (center2mouseradius < radius) {			//if the mouse position is lesser than the radius position
+			shape.storenodes[1].loc.posy = mouse.getPosition(createwindow).y;
+			shape.storenodes[1].loc.posx = mouse.getPosition(createwindow).x;
+		}
+	}
+	
+	if (storenodes[0].loc.posy - toolbar.BoundaryLimit() >= radius + 2){
+		shape.storenodes[1].loc.posx = mouse.getPosition(createwindow).x;
+		shape.storenodes[1].loc.posy = mouse.getPosition(createwindow).y;
+	}
+	
 }
-
 
 spline::spline():Shape() {
 	maxnodes = 3;
@@ -162,7 +194,6 @@ spline::spline():Shape() {
 	
 }
 
-	
 void spline::drawshape(sf::RenderWindow& createwindow, const Toolbar& toolbar)  {
 
 	for (int i = 0; i < maxnodes; ++i) {
@@ -194,6 +225,36 @@ void spline::drawshape(sf::RenderWindow& createwindow, const Toolbar& toolbar)  
 		createwindow.draw(splinepoints);
 }
 
-void spline::setMousePos(const sf::Mouse & mouse, sf::RenderWindow & createwindow, Shape & shape, const Toolbar & toolbar)
+void spline::setMousePos(const sf::Mouse& mouse, sf::RenderWindow& createwindow, Shape& shape, const Toolbar& toolbar)
 {
+
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Middle)) {
+		drawsecondline = true;
+	}
+
+	if (drawsecondline) {
+		shape.storenodes[2].loc.posx = mouse.getPosition(createwindow).x;		//move the newest node around
+		shape.storenodes[2].loc.posy = mouse.getPosition(createwindow).y;		//move the newest node around
+	}
+
+	else {		//if second node is not put onto the screen yet
+		if (shape.storenodes[1].loc.posy >= toolbar.BoundaryLimit()) {
+			shape.storenodes[1].loc.posx = mouse.getPosition(createwindow).x;
+			shape.storenodes[1].loc.posy = mouse.getPosition(createwindow).y;
+		}
+
+		if (shape.storenodes[1].loc.posy <= toolbar.BoundaryLimit()) {
+			shape.storenodes[1].loc.posy = toolbar.BoundaryLimit();
+		}
+	}
+
+	if (shape.storenodes[2].loc.posy >= toolbar.BoundaryLimit()) {
+		shape.storenodes[2].loc.posx = mouse.getPosition(createwindow).x;
+		shape.storenodes[2].loc.posy = mouse.getPosition(createwindow).y;
+	}
+
+	if (shape.storenodes[2].loc.posy <= toolbar.BoundaryLimit()) {
+		shape.storenodes[2].loc.posy = toolbar.BoundaryLimit();
+	}
+
 }

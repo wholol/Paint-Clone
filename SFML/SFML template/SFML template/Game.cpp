@@ -66,103 +66,36 @@ void Game::update() {		//update game /logic
 
 	for (auto& x : storeshapes) {		//resize shapes if mouse gets near the nodes.
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-			x->resizeShapes(mouse, createwindow);
+			x->resizeShapes(mouse, createwindow,toolbar);
 		}
 	}
 
+	/*shape logic*/
 	sf.setStatus(toolbar.ChooseFeature(mouse, createwindow), status);	//set the status of the shape
 	sf.getObject(&shape, storeshapes, status, toolbar.ChooseFeature(mouse, createwindow));	//stop geenrating objects everytime	
 		
 	for (int i = 0; i <= 3; ++i) {
 		if (status[i].initializeEntity) {
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
-				status[i].drawingEntity = true;
+				if (mouse.getPosition(createwindow).y >= toolbar.BoundaryLimit() + 2) {		//only initialzie drawing if below boundary
+					status[i].drawingEntity = true;
+				}
 			}
 
 			if (status[i].drawingEntity) {
-
+				
 				shape->makenode(mouse, createwindow);		//make first node	
 				shape->makenode(mouse, createwindow);		//make second node	
 
 				if (i == 2) {		//spline. requries 3 nodes instead of 2
-				shape->makenode(mouse, createwindow);		//make second node	
+					shape->makenode(mouse, createwindow);		//make second node	
 				}
 
-				shape->setMousePos(mouse, createwindow, *shape,toolbar);
+				shape->setMousePos(mouse, createwindow, *shape, toolbar);
 			}
 			
 		}
 	}
-	/*
-	if (status[0].initializeEntity) {			//line case
-		
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
-			status[0].drawingEntity = true;
-		}
-
-		if (status[0].drawingEntity) {
-			
-			shape->storenodes[1].loc.posx = mouse.getPosition(createwindow).x;		//move the newest node around
-			shape->storenodes[1].loc.posy = mouse.getPosition(createwindow).y;
-			if (shape->storenodes[1].loc.posy <= toolbar.BoundaryLimit()) {
-				shape->storenodes[1].loc.posy = toolbar.BoundaryLimit();
-			}
-		}
-	}
-
-	if (status[2].initializeEntity) {			//if space is pressed
-
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
-			status[2].drawingEntity = true;
-		}
-
-		if (status[2].drawingEntity) {
-			shape->makenode(mouse, createwindow);		//make first node	
-			shape->makenode(mouse, createwindow);		//make second node	
-			shape->makenode(mouse, createwindow);		//thir node for spline	
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Middle)) {
-				drawsecondline = true;
-			}
-
-			if (drawsecondline) {
-				shape->storenodes[2].loc.posx = mouse.getPosition(createwindow).x;		//move the newest node around
-				shape->storenodes[2].loc.posy = mouse.getPosition(createwindow).y;		//move the newest node around
-			}
-
-			else {
-				shape->storenodes[1].loc.posx = mouse.getPosition(createwindow).x;		//move the newest node around
-				shape->storenodes[1].loc.posy = mouse.getPosition(createwindow).y;
-				shape->storenodes[2].loc.posx = mouse.getPosition(createwindow).x;		//move the newest node around
-				shape->storenodes[2].loc.posy = mouse.getPosition(createwindow).y;
-			}
-		}
-	}
-
-	if (status[1].initializeEntity) {		//cube case
-		
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
-			status[1].drawingEntity = true;
-		}
-			if (status[1].drawingEntity) {
-				shape->makenode(mouse, createwindow);		//make first node	
-				shape->makenode(mouse, createwindow);		//make second node	
-				shape->storenodes[1].loc.posx = mouse.getPosition(createwindow).x;		//move the newest node around
-				shape->storenodes[1].loc.posy = mouse.getPosition(createwindow).y;		//move the newest node around
-			}
-	}
-
-	if (status[3].initializeEntity) {		//cube case
-
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
-			status[3].drawingEntity = true;
-		}
-			if (status[3].drawingEntity) {
-				shape->makenode(mouse, createwindow);		//make first node	
-				shape->makenode(mouse, createwindow);		//make second node	
-				shape->storenodes[1].loc.posx = mouse.getPosition(createwindow).x;		//move the newest node around
-				shape->storenodes[1].loc.posy = mouse.getPosition(createwindow).y;		//move the newest node around
-			}
-	}*/
 
 	/*paint logic*/
 	pf.setStatus(toolbar.ChooseFeature(mouse, createwindow), status);

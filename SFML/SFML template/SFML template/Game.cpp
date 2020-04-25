@@ -162,15 +162,16 @@ bool Game::quit()			//call quit game
 Game::~Game()	{
 	
 	for (auto& x : storeEntities) {
+		std::cout << "delete entitty" << std::endl;
 		delete x;
 		x = nullptr;
 	}
 	storeEntities.clear();
+
 
 	if (!(std::any_of(storeEntities.cbegin(), storeEntities.cend(), [&](Entity* s) {return shape == s; }))) {
 		delete shape;			//delete instatiated shapes that are not emplaced back into the store shapes vector
 		shape = nullptr;
 	}
 
-	
 }

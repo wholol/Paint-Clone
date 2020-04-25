@@ -15,6 +15,7 @@ public:
 		shapestatuspair.insert(std::make_pair(draw::spline, 2));
 		shapestatuspair.insert(std::make_pair(draw::circle, 3));
 	}
+	
 
 	void getObject(Shape** shape, const std::vector<Entity*>& storeEntities, std::vector<drawstatus>& status, draw d) {
 
@@ -87,4 +88,5 @@ private:
 	std::unordered_map<draw, int> shapestatuspair;
 	Shape* p = nullptr;
 	int stat;
+
 };

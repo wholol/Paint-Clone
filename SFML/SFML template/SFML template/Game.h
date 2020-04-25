@@ -10,6 +10,7 @@
 #include "Undo.h"
 #include "Text.h"
 
+
 class Game {			//game class. should have render, update/events, quit and initialize.
 
 public:

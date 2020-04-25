@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "Toolbar.h"
 #include "Entity.h"
-
+#include <iostream>
 struct Shape : public Entity {
 	
 	struct location {		//location variables
@@ -27,6 +27,10 @@ struct Shape : public Entity {
 	void makenode(const sf::Mouse& mousepos, sf::RenderWindow& createwindow);
 	virtual void setMousePos(const sf::Mouse& mouse, sf::RenderWindow &createwindow, Shape& shape, const Toolbar& toolbar);
 	void resize(const sf::Mouse& mouse, sf::RenderWindow& createwindow, const Toolbar& toolbar) override;	//iherited from entity
+
+	uint32_t usage();
+	void* operator new(size_t size);
+	void operator delete(void* memory, size_t size);
 };
 
 struct line : public Shape {

@@ -12,6 +12,25 @@ void Shape::makenode(const sf::Mouse& mousepos, sf::RenderWindow& createwindow) 
 		}
 }
 
+void* Shape::operator new(size_t size) {
+	static uint32_t allocated;
+	allocated += size;
+	std::cout << "allocating:    " << allocated << "    for type shape." << std::endl;
+
+	return malloc(size);
+}
+
+
+void Shape::operator delete(void* memory, size_t size) {
+	static uint32_t deallocated;
+	std::cout << "deallocated:     " << deallocated << "    for type shape." << std::endl;
+	free(memory);
+}
+
+uint32_t Shape::usage() {
+	return 1;
+}
+
 void Shape::resize(const sf::Mouse& mouse, sf::RenderWindow& createwindow, const Toolbar& toolbar) {
 	
 	for (int i = 0; i < storenodes.size(); ++i) {	//for each node

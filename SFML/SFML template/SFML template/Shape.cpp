@@ -12,7 +12,8 @@ void Shape::makenode(const sf::Mouse& mousepos, sf::RenderWindow& createwindow) 
 		}
 }
 
-void Shape::resizeShapes(const sf::Mouse& mouse, sf::RenderWindow& createwindow, const Toolbar& toolbar) {
+void Shape::resize(const sf::Mouse& mouse, sf::RenderWindow& createwindow, const Toolbar& toolbar) {
+	
 	for (int i = 0; i < storenodes.size(); ++i) {	//for each node
 
 		if (sqrt(pow(storenodes[i].loc.posx - mouse.getPosition(createwindow).x, 2) + pow(storenodes[i].loc.posy - mouse.getPosition(createwindow).y, 2)) < 30.0f) {
@@ -43,7 +44,7 @@ void Shape::resizeShapes(const sf::Mouse& mouse, sf::RenderWindow& createwindow,
 	}
 }
 
-void Shape::setMousePos(const sf::Mouse & mouse, sf::RenderWindow & createwindow, Shape & shape, const Toolbar & toolbar)
+void Shape::setMousePos(const sf::Mouse& mouse, sf::RenderWindow& createwindow, Shape& shape, const Toolbar& toolbar)
 {
 	if (shape.storenodes[1].loc.posy >= toolbar.BoundaryLimit()) {
 		shape.storenodes[1].loc.posx = mouse.getPosition(createwindow).x;

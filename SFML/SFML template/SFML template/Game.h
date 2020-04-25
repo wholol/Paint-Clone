@@ -8,6 +8,7 @@
 #include "PaintFactory.h"
 #include "ShapeFactory.h"
 #include "Undo.h"
+#include "Text.h"
 
 class Game {			//game class. should have render, update/events, quit and initialize.
 
@@ -31,11 +32,9 @@ private:
 	Paint* paint = nullptr;
 	Toolbar toolbar;
 	std::vector<drawstatus> status;	//stores the drawstatus of shapes
-	std::vector <Shape*> storeshapes;		//store shapes to be drawn onto the screen.
-	std::vector<Paint*> storepaint;			//stores vectors to be painted on the screen.	
+	std::vector <Entity*> storeEntities;		//store shapes to be drawn onto the screen.
 	bool quitgame = false;			//quit game
 	bool MainMenu = true;		
-
 	sf::Mouse mouse;
 	sf::Event event;					//events class
 	sf::RenderWindow createwindow;		//windows class

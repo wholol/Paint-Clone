@@ -11,8 +11,8 @@ struct Paint : public Entity {
 	int mouseposx, mouseposy, circlesize;
 	sf::CircleShape circle;		//create circle object for the paint.
 
-	void ChangeBrushSize();
 	virtual void setMousePos(const sf::Mouse& mouse, sf::RenderWindow &createwindow);
+	void resize(const sf::Mouse& mouse, sf::RenderWindow& createwindow, const Toolbar& toolbar) override;	//inhrtied from entity : resize brush
 };
 
 struct Red :public Paint {	
@@ -21,35 +21,28 @@ struct Red :public Paint {
 
 struct Yellow : public Paint {
 	void drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar) override;
-	
 };
 
 struct Blue :public Paint {
 	void drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar) override;
-
 };
 
 struct Black :public Paint {
 	void drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar) override;
-
 };
 
 struct Magenta :public Paint {
 	void drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar) override;
-
 };
 
 struct Cyan :public Paint {
 	void drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar) override;
-
 };
 
 struct Green :public Paint {
 	void drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar) override;
-
 };
 
 struct White :public Paint {
 	void drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar) override;
-
 };

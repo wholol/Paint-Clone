@@ -6,9 +6,9 @@ Paint::Paint()
 {
 }
 
-void Paint::ChangeBrushSize()
+void Paint::resize(const sf::Mouse& mouse, sf::RenderWindow& createwindow, const Toolbar& toolbar) 
 {
-
+	//TO BE DONE
 }
 
 

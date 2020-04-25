@@ -1,12 +1,15 @@
 #include "Game.h"
 #include <iostream>
-
+#include <assert.h>
 
 Game::Game(int screenwidth, int screenheight, const std::string& title, int framerate)
 	:createwindow(sf::VideoMode(screenwidth, screenheight), title),
 	toolbar(screenwidth , screenheight)
 {
-	for (int i = 0; i <= 11; ++i) {
+	assert(screenheight == 800);
+	assert(screenwidth == 1400);
+
+	for (int i = 0; i <= 12; ++i) {
 		status.push_back({ false , false  , false });
 	}
 }
@@ -20,12 +23,8 @@ void Game::render() {		//rendering
 		shape->drawEntity(createwindow, toolbar);
 	}
 	
-	for (const auto &x : storepaint) {		//draw all shapes
+	for (const auto &x : storeEntities) {		//draw all shapes
 		x->drawEntity(createwindow, toolbar);
-	}
-
-	for (const auto &x : storeshapes) {		//draw all shapes
-		x->drawEntity(createwindow , toolbar);
 	}
 
 	 createwindow.display();
@@ -56,8 +55,8 @@ void Game::update() {		//update game /logic
 			x.initializeEntity = false;
 		});
 	
-		if (!(std::any_of(storeshapes.cbegin(), storeshapes.cend(), [&](Shape* s) {return shape == s; }))) {
-			storeshapes.emplace_back(shape);		//emplace back the shape only if the shape has not been emplaced before
+		if (!(std::any_of(storeEntities.cbegin(), storeEntities.cend(), [&](Entity* s) {return shape == s; }))) {
+			storeEntities.emplace_back(shape);		//emplace back the shape only if the shape has not been emplaced before
 			undo.push(shape);
 			std::cout << "stored shape to vector" << std::endl;
 			shape = nullptr;
@@ -65,15 +64,15 @@ void Game::update() {		//update game /logic
 		}
 	}
 
-	for (auto& x : storeshapes) {		//resize shapes if mouse gets near the nodes.
+	for (auto& x : storeEntities) {		//resize shapes if mouse gets near the nodes.
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-			x->resizeShapes(mouse, createwindow,toolbar);
+			x->resize(mouse, createwindow,toolbar);
 		}
 	}
 
 	/*shape logic*/
 	sf.setStatus(toolbar.ChooseFeature(mouse, createwindow), status);	//set the status of the shape
-	sf.getObject(&shape, storeshapes, status, toolbar.ChooseFeature(mouse, createwindow));	//stop geenrating objects everytime	
+	sf.getObject(&shape, storeEntities, status, toolbar.ChooseFeature(mouse, createwindow));	//generate a shape object
 		
 	for (int i = 0; i <= 3; ++i) {
 		if (status[i].initializeEntity) {
@@ -88,10 +87,9 @@ void Game::update() {		//update game /logic
 				shape->makenode(mouse, createwindow);		//make first node	
 				shape->makenode(mouse, createwindow);		//make second node	
 
-				if (i == 2) {		//spline. requries 3 nodes instead of 2
+				if (i == 2) {		//spline (status[2]). requries 3 nodes. hence, create extra node.
 					shape->makenode(mouse, createwindow);		//make second node	
 				}
-
 				shape->setMousePos(mouse, createwindow, *shape, toolbar);
 			}
 		}
@@ -105,10 +103,17 @@ void Game::update() {		//update game /logic
 				pf.getObject(&paint, i);					//make new object of type i if right click is pressed.
 				paint->setMousePos(mouse, createwindow);
 				undo.push(paint);
-				storepaint.emplace_back(paint);
+				storeEntities.emplace_back(paint);
 			}
 		}
 	}
+
+
+	/*text logic*/
+	createwindow.clear(sf::Color::White);
+	/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::O)) {
+		text.drawEntity(createwindow, toolbar);
+	}*/
 
 
 	/*undo logic*/
@@ -119,30 +124,25 @@ void Game::update() {		//update game /logic
 		if (undo.getTypeID() != "none") {
 			if (undo.getTypeID() == "struct line" || undo.getTypeID() == "struct spline" || undo.getTypeID() == "struct cube"
 				|| undo.getTypeID() == "struct circle") {
-				if (storeshapes.size() > 0) {
-					storeshapes.pop_back();
-					std::cout << storeshapes.size() << std::endl;
+				if (storeEntities.size() > 0) {
+					storeEntities.pop_back();
 				}
 			}
 
 			else {
-				if (storepaint.size() > 0) {
-					storepaint.pop_back();
-					std::cout << storepaint.size() << std::endl;
+				if (storeEntities.size() > 0) {
+					storeEntities.pop_back();
 				}
 			}
 			undo.pop();
 		}
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Delete)) {		//prorably get the type id
+	if (toolbar.ChooseFeature(mouse,createwindow) == draw::clear) {		
 		undo.clear();				//clear stack frame for undo
-		storepaint.clear();			//resiz container to zero
-		storeshapes.clear();		//resize container to zero
-	}
+		storeEntities.clear();			//resize container to zero
 
-	createwindow.clear(sf::Color::White);
-	
+	}
 }
 
 
@@ -161,19 +161,13 @@ bool Game::quit()			//call quit game
 
 Game::~Game()	{
 	
-	for (auto& x : storeshapes) {
+	for (auto& x : storeEntities) {
 		delete x;
 		x = nullptr;
 	}
-	storeshapes.clear();
+	storeEntities.clear();
 
-	for (auto& x : storepaint) {
-		delete x;
-		x = nullptr;
-	}
-	storepaint.clear();
-
-	if (!(std::any_of(storeshapes.cbegin(), storeshapes.cend(), [&](Shape* s) {return shape == s; }))) {
+	if (!(std::any_of(storeEntities.cbegin(), storeEntities.cend(), [&](Entity* s) {return shape == s; }))) {
 		delete shape;			//delete instatiated shapes that are not emplaced back into the store shapes vector
 		shape = nullptr;
 	}

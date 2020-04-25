@@ -6,9 +6,7 @@ class Undo {
 public:
 
 	void push(Entity* entity);
-
 	void pop();
-
 	void clear();
 
 	std::string getTypeID() const;

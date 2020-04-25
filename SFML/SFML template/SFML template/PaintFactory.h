@@ -17,7 +17,6 @@ public:
 		drawstatuspair.insert(std::make_pair(draw::whitepaint, 11));
 	}
 
-
 	void getObject(Paint** paint,int status) {
 		if (status == 4) {
 			p = new Red();

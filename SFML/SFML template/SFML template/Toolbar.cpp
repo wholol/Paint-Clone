@@ -6,6 +6,11 @@ Toolbar::Toolbar(int screenwidth, int screenheight) :
 	PaintTileHeight(PaintTileWidth / 2),
 	drawrect(sf::Vector2f(PaintTileWidth, PaintTileHeight))
 {
+	shapetext.loadFromFile("shapetoolbar.png");
+	shapesprite.setTexture(shapetext);
+	misctext.loadFromFile("misctoolbar.png");
+	miscsprite.setTexture(misctext);
+
 	colormap.insert({ std::make_pair(4, 0), sf::Color::Red } );
 	colormap.insert({ std::make_pair(4, 1), sf::Color::Yellow});
 	colormap.insert({ std::make_pair(5, 0), sf::Color::Blue });
@@ -16,26 +21,25 @@ Toolbar::Toolbar(int screenwidth, int screenheight) :
 	colormap.insert({ std::make_pair(7, 1), sf::Color::White });	
 }
 
-
 void Toolbar::DrawMenuBar(sf::RenderWindow& createwindow) {
 
-	for (int i = 0; i < 4; ++i) {			//draw the boxes for shapes
-		drawrect.setOutlineColor(sf::Color::Black);
-		drawrect.setPosition(i * PaintTileWidth, 0);
-		drawrect.setOutlineThickness(-2);
-		drawrect.setFillColor(sf::Color::Magenta);		//color of rectangle
-		createwindow.draw(drawrect);
-	}
 
+	createwindow.draw(shapesprite);
+
+	miscsprite.setPosition(sf::Vector2f(0.0f, PaintTileHeight)); // absolute position
+	createwindow.draw(miscsprite);
+
+	/*draw boundary line*/
 	sf::Vertex boundary_line[] =
 	{
 		sf::Vertex(sf::Vector2f(0.0f  , BoundaryLimit()), sf::Color::Blue),
 		sf::Vertex(sf::Vector2f(PaintTileWidth * 8 , BoundaryLimit()), sf::Color::Blue)
 	};
+
 	createwindow.draw(boundary_line, 100 , sf::Lines);
 
-	
-	for (int i = 4; i < 8; ++i) {
+	/*draw colour boxes*/
+	for (int i = 4; i < 8; ++i) {		
 		for (int j = 0; j < 2;  ++j) {
 			drawrect.setOutlineColor(sf::Color::Black);
 			drawrect.setPosition(i * PaintTileWidth, j * PaintTileHeight);
@@ -47,7 +51,7 @@ void Toolbar::DrawMenuBar(sf::RenderWindow& createwindow) {
 				drawrect.setFillColor(f->second);		//color of rectangle
 			}
 			else {
-				//do nothing if no color
+				continue;
 			}
 			createwindow.draw(drawrect);
 		}
@@ -58,6 +62,7 @@ void Toolbar::DrawMenuBar(sf::RenderWindow& createwindow) {
 draw Toolbar::ChooseFeature(const sf::Mouse& mouse, sf::RenderWindow& createwindow) {
 
 	//choose the feature to be used
+
 	//shapes features
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 		if (mouse.getPosition(createwindow).x >= 0 && mouse.getPosition(createwindow).x <= PaintTileWidth && mouse.getPosition(createwindow).y >= 0 && mouse.getPosition(createwindow).y <= PaintTileHeight) {
@@ -77,40 +82,46 @@ draw Toolbar::ChooseFeature(const sf::Mouse& mouse, sf::RenderWindow& createwind
 		}
 
 		//color features
-		
-			if (mouse.getPosition(createwindow).x >= PaintTileWidth * 4 && mouse.getPosition(createwindow).x <= PaintTileWidth * 5 && mouse.getPosition(createwindow).y >= 0 && mouse.getPosition(createwindow).y <= PaintTileHeight) {
-				return draw::redpaint;
-			}
 
-			if (mouse.getPosition(createwindow).x >= PaintTileWidth * 4 && mouse.getPosition(createwindow).x <= PaintTileWidth * 5 && mouse.getPosition(createwindow).y >= PaintTileHeight && mouse.getPosition(createwindow).y <= PaintTileHeight * 2) {
-				return draw::yellowpaint;
-			}
+		if (mouse.getPosition(createwindow).x >= PaintTileWidth * 4 && mouse.getPosition(createwindow).x <= PaintTileWidth * 5 && mouse.getPosition(createwindow).y >= 0 && mouse.getPosition(createwindow).y <= PaintTileHeight) {
+			return draw::redpaint;
+		}
 
-			if (mouse.getPosition(createwindow).x >= PaintTileWidth * 5 && mouse.getPosition(createwindow).x <= PaintTileWidth * 6 && mouse.getPosition(createwindow).y >= 0 && mouse.getPosition(createwindow).y <= PaintTileHeight) {
-				return draw::bluepaint;
-			}
+		if (mouse.getPosition(createwindow).x >= PaintTileWidth * 4 && mouse.getPosition(createwindow).x <= PaintTileWidth * 5 && mouse.getPosition(createwindow).y >= PaintTileHeight && mouse.getPosition(createwindow).y <= PaintTileHeight * 2) {
+			return draw::yellowpaint;
+		}
 
-			if (mouse.getPosition(createwindow).x >= PaintTileWidth * 5 && mouse.getPosition(createwindow).x <= PaintTileWidth * 6 && mouse.getPosition(createwindow).y >= PaintTileHeight && mouse.getPosition(createwindow).y <= PaintTileHeight * 2) {
-				return draw::blackpaint;
-			}
+		if (mouse.getPosition(createwindow).x >= PaintTileWidth * 5 && mouse.getPosition(createwindow).x <= PaintTileWidth * 6 && mouse.getPosition(createwindow).y >= 0 && mouse.getPosition(createwindow).y <= PaintTileHeight) {
+			return draw::bluepaint;
+		}
 
-			if (mouse.getPosition(createwindow).x >= PaintTileWidth * 6 && mouse.getPosition(createwindow).x <= PaintTileWidth * 7 && mouse.getPosition(createwindow).y >= 0 && mouse.getPosition(createwindow).y <= PaintTileHeight) {
-				return draw::magentapaint;
-			}
+		if (mouse.getPosition(createwindow).x >= PaintTileWidth * 5 && mouse.getPosition(createwindow).x <= PaintTileWidth * 6 && mouse.getPosition(createwindow).y >= PaintTileHeight && mouse.getPosition(createwindow).y <= PaintTileHeight * 2) {
+			return draw::blackpaint;
+		}
 
-			if (mouse.getPosition(createwindow).x >= PaintTileWidth * 6 && mouse.getPosition(createwindow).x <= PaintTileWidth * 7 && mouse.getPosition(createwindow).y >= PaintTileHeight && mouse.getPosition(createwindow).y <= PaintTileHeight * 2) {
-				return draw::cyanpaint;
-			}
+		if (mouse.getPosition(createwindow).x >= PaintTileWidth * 6 && mouse.getPosition(createwindow).x <= PaintTileWidth * 7 && mouse.getPosition(createwindow).y >= 0 && mouse.getPosition(createwindow).y <= PaintTileHeight) {
+			return draw::magentapaint;
+		}
 
-			if (mouse.getPosition(createwindow).x >= PaintTileWidth * 7 && mouse.getPosition(createwindow).x <= PaintTileWidth * 8 && mouse.getPosition(createwindow).y >= 0 && mouse.getPosition(createwindow).y <= PaintTileHeight) {
-				return draw::greenpaint;
-			}
+		if (mouse.getPosition(createwindow).x >= PaintTileWidth * 6 && mouse.getPosition(createwindow).x <= PaintTileWidth * 7 && mouse.getPosition(createwindow).y >= PaintTileHeight && mouse.getPosition(createwindow).y <= PaintTileHeight * 2) {
+			return draw::cyanpaint;
+		}
 
-			if (mouse.getPosition(createwindow).x >= PaintTileWidth * 7 && mouse.getPosition(createwindow).x <= PaintTileWidth * 8 && mouse.getPosition(createwindow).y >= PaintTileHeight && mouse.getPosition(createwindow).y <= PaintTileHeight * 2) {
-				return draw::whitepaint;
-			}
+		if (mouse.getPosition(createwindow).x >= PaintTileWidth * 7 && mouse.getPosition(createwindow).x <= PaintTileWidth * 8 && mouse.getPosition(createwindow).y >= 0 && mouse.getPosition(createwindow).y <= PaintTileHeight) {
+			return draw::greenpaint;
+		}
+
+		if (mouse.getPosition(createwindow).x >= PaintTileWidth * 7 && mouse.getPosition(createwindow).x <= PaintTileWidth * 8 && mouse.getPosition(createwindow).y >= PaintTileHeight && mouse.getPosition(createwindow).y <= PaintTileHeight * 2) {
+			return draw::whitepaint;
+		}
+
+
+		//misc features
+
+		if (mouse.getPosition(createwindow).x >= PaintTileWidth && mouse.getPosition(createwindow).x <= PaintTileWidth * 2 && mouse.getPosition(createwindow).y >= PaintTileHeight && mouse.getPosition(createwindow).y <= PaintTileHeight * 2) {
+			return draw::clear;
+		}
 	}
-
 	else {
 		return draw::nothing;
 	}

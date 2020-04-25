@@ -12,12 +12,12 @@ void Undo::pop()
 	if (!undo.empty()) {
 		Entity* temp = undo.top();
 		undo.pop();
-
 		if (undo.empty()) {
 			typeID = "none";
 		}
+
 		else {
-			typeID = typeid(*undo.top()).name();		//get the typeID of the object AFTER popping.
+			typeID = typeid(*undo.top()).name();		//get the typeID of the object AFTER popping. (to determine the next item to pop).
 		}
 		delete temp;
 		temp = nullptr;

@@ -169,6 +169,7 @@
   <ItemGroup>
     <ClInclude Include="DrawStatus.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="Text.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Paint.h" />
     <ClInclude Include="PaintFactory.h" />
@@ -189,6 +190,7 @@
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Shape.cpp" />
+    <ClCompile Include="Text.cpp" />
     <ClCompile Include="Toolbar.cpp" />
     <ClCompile Include="Undo.cpp" />
   </ItemGroup>

@@ -2,6 +2,7 @@
 #include <vector>
 #include <SFML\Graphics.hpp>
 #include <map>
+
 //this class draws the menu and choosing the features
 enum class draw {
 	nothing,
@@ -18,7 +19,12 @@ enum class draw {
 	cyanpaint,
 	greenpaint,
 	whitepaint,
-	pencil
+	clear,
+	floodfill,
+	size_1,
+	size_2,
+	size_3,
+	size_4
 };
 
 class Toolbar {
@@ -33,8 +39,12 @@ public:
 private:
 
 	std::map<std::pair<int, int>, sf::Color> colormap;		//stores the color map based on x and y coordinates.
-	int PaintTileWidth;		//1920 / 2 / 5 shapes
+	int PaintTileWidth;	
 	int PaintTileHeight;
+	sf::Sprite shapesprite;
+	sf::Texture shapetext;
+	sf::Sprite miscsprite;
+	sf::Texture misctext;
 	sf::RectangleShape drawrect;
 	
 

@@ -28,19 +28,21 @@ struct Shape : public Entity {
 	virtual void setMousePos(const sf::Mouse& mouse, sf::RenderWindow &createwindow, Shape& shape, const Toolbar& toolbar);
 	void resize(const sf::Mouse& mouse, sf::RenderWindow& createwindow, const Toolbar& toolbar) override;	//iherited from entity
 
-	uint32_t usage();
 	void* operator new(size_t size);
 	void operator delete(void* memory, size_t size);
+	~Shape();
 };
 
 struct line : public Shape {
 	line();
 	void drawEntity(sf::RenderWindow& createwindow, const Toolbar& toolbar) override;
+	~line();
 };
 
 struct cube : public Shape {
 	cube();
 	void drawEntity(sf::RenderWindow& createwindow, const Toolbar& toolbar) override;
+	~cube();
 };
 
 struct circle : public Shape {
@@ -48,7 +50,7 @@ struct circle : public Shape {
 	circle();
 	void drawEntity(sf::RenderWindow& createwindow, const Toolbar& toolbar) override;
 	void setMousePos(const sf::Mouse& mouse, sf::RenderWindow &createwindow, Shape& shape, const Toolbar& toolbar) override;
-
+	~circle();
 };
 
 struct spline : public Shape {
@@ -56,4 +58,5 @@ struct spline : public Shape {
 	spline();
 	void drawEntity(sf::RenderWindow& createwindow, const Toolbar& toolbar) override;
 	void setMousePos(const sf::Mouse& mouse, sf::RenderWindow &createwindow, Shape& shape, const Toolbar& toolbar) override;
+	~spline();
 };

@@ -48,6 +48,12 @@
     <ClInclude Include="Text.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="TextFactory.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AirBrush.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -72,6 +78,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AirBrush.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

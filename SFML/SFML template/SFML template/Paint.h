@@ -13,36 +13,45 @@ struct Paint : public Entity {
 
 	virtual void setMousePos(const sf::Mouse& mouse, sf::RenderWindow &createwindow);
 	void resize(const sf::Mouse& mouse, sf::RenderWindow& createwindow, const Toolbar& toolbar) override;	//inhrtied from entity : resize brush
+	~Paint();
 };
 
 struct Red :public Paint {	
 	void drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar) override;
+	~Red();
 };
 
 struct Yellow : public Paint {
 	void drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar) override;
+	~Yellow();
 };
 
 struct Blue :public Paint {
 	void drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar) override;
+	~Blue();
 };
 
 struct Black :public Paint {
 	void drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar) override;
+	~Black();
 };
 
 struct Magenta :public Paint {
 	void drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar) override;
+	~Magenta();
 };
 
 struct Cyan :public Paint {
 	void drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar) override;
+	~Cyan();
 };
 
 struct Green :public Paint {
 	void drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar) override;
+	~Green();
 };
 
 struct White :public Paint {
 	void drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar) override;
+	~White();
 };

@@ -121,6 +121,10 @@ draw Toolbar::ChooseFeature(const sf::Mouse& mouse, sf::RenderWindow& createwind
 		if (mouse.getPosition(createwindow).x >= PaintTileWidth && mouse.getPosition(createwindow).x <= PaintTileWidth * 2 && mouse.getPosition(createwindow).y >= PaintTileHeight && mouse.getPosition(createwindow).y <= PaintTileHeight * 2) {
 			return draw::clear;
 		}
+
+		if (mouse.getPosition(createwindow).x >= PaintTileWidth * 2 && mouse.getPosition(createwindow).x <= PaintTileWidth * 3 && mouse.getPosition(createwindow).y >= PaintTileHeight && mouse.getPosition(createwindow).y <= PaintTileHeight * 2) {
+			return draw::text;
+		}
 	}
 	else {
 		return draw::nothing;

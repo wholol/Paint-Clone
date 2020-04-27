@@ -20,7 +20,7 @@ enum class draw {
 	greenpaint,
 	whitepaint,
 	clear,
-	floodfill,
+	text,
 	size_1,
 	size_2,
 	size_3,

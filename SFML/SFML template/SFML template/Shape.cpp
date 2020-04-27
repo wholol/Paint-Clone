@@ -13,22 +13,18 @@ void Shape::makenode(const sf::Mouse& mousepos, sf::RenderWindow& createwindow) 
 }
 
 void* Shape::operator new(size_t size) {
-	static uint32_t allocated;
-	allocated += size;
-	std::cout << "allocating:    " << allocated << "    for type shape." << std::endl;
-
+	std::cout << "allocating:    " << size << "    for type shape." << std::endl;
 	return malloc(size);
 }
 
 
 void Shape::operator delete(void* memory, size_t size) {
-	static uint32_t deallocated;
-	std::cout << "deallocated:     " << deallocated << "    for type shape." << std::endl;
+	std::cout << "deallocated:    " << size << "    for type shape." << std::endl;
 	free(memory);
 }
 
-uint32_t Shape::usage() {
-	return 1;
+Shape::~Shape()
+{
 }
 
 void Shape::resize(const sf::Mouse& mouse, sf::RenderWindow& createwindow, const Toolbar& toolbar) {
@@ -107,6 +103,10 @@ void line::drawEntity(sf::RenderWindow& createwindow, const Toolbar& toolbar){
 	createwindow.draw(line, 2, sf::Lines);
 }
 
+line::~line()
+{
+}
+
 
 cube::cube() : Shape() {
 	maxnodes = 2;
@@ -153,6 +153,10 @@ void cube::drawEntity(sf::RenderWindow& createwindow, const Toolbar& toolbar)  {
 		createwindow.draw(vertical_line_1, 2, sf::Lines);
 		createwindow.draw(horizontal_line_2, 2, sf::Lines);
 		createwindow.draw(vertical_line_2, 2, sf::Lines);
+}
+
+cube::~cube()
+{
 }
 
 circle::circle() : Shape() {
@@ -208,10 +212,13 @@ void circle::setMousePos(const sf::Mouse & mouse, sf::RenderWindow & createwindo
 	
 }
 
+circle::~circle()
+{
+}
+
 spline::spline():Shape() {
 	maxnodes = 3;
 	storenodes.reserve(maxnodes);
-	
 }
 
 void spline::drawEntity(sf::RenderWindow& createwindow, const Toolbar& toolbar)  {
@@ -277,4 +284,8 @@ void spline::setMousePos(const sf::Mouse& mouse, sf::RenderWindow& createwindow,
 		shape.storenodes[2].loc.posy = toolbar.BoundaryLimit();
 	}
 
+}
+
+spline::~spline()
+{
 }

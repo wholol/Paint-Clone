@@ -16,10 +16,9 @@ public:
 		shapestatuspair.insert(std::make_pair(draw::circle, 3));
 	}
 	
+	void getObject(Shape** shape, const std::vector<Entity*>& storeEntities, draw d) {
 
-	void getObject(Shape** shape, const std::vector<Entity*>& storeEntities, std::vector<drawstatus>& status, draw d) {
-
-		if (d == draw::line) {	//before generating a shape, ensure that shape memory is freed
+		if (d == draw::line) {	//before generating a shape, ensure that shape memory is freed (only generates when usr presses the rectangle for line!).
 			if (*shape != nullptr && !(std::any_of(storeEntities.cbegin(), storeEntities.cend(), [&](Entity* s) {return *shape == s; }))) {
 				std::cout << "deleting shape entity of type:" << typeid(**shape).name() << std::endl;
 				delete *shape;			//delete instatiated shapes that are not emplaced back into the store shapes vector

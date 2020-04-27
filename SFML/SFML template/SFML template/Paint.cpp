@@ -11,6 +11,10 @@ void Paint::resize(const sf::Mouse& mouse, sf::RenderWindow& createwindow, const
 	//TO BE DONE
 }
 
+Paint::~Paint()
+{
+}
+
 
 void Paint::setMousePos(const sf::Mouse& mouse, sf::RenderWindow &createwindow) {
 	mouseposx = mouse.getPosition(createwindow).x;
@@ -30,6 +34,10 @@ void Red::drawEntity(sf::RenderWindow &createwindow,const Toolbar& toolbar) {
 	createwindow.draw(circle);
 }
 
+Red::~Red()
+{
+}
+
 
 void Yellow::drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar) {
 	uint8_t radius = minbrushradius;
@@ -43,6 +51,10 @@ void Yellow::drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar) 
 
 }
 
+Yellow::~Yellow()
+{
+}
+
 void Blue::drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar) {
 	uint8_t radius = minbrushradius;
 	circle.setRadius(radius);
@@ -53,6 +65,10 @@ void Blue::drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar) {
 	}
 	createwindow.draw(circle);
 
+}
+
+Blue::~Blue()
+{
 }
 
 
@@ -68,6 +84,9 @@ void Black::drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar) {
 	createwindow.draw(circle);
 }
 
+Black::~Black()
+{
+}
 
 void Magenta::drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar) {
 	uint8_t radius = minbrushradius;
@@ -80,6 +99,9 @@ void Magenta::drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar)
 	createwindow.draw(circle);
 }
 
+Magenta::~Magenta()
+{
+}
 
 
 void Cyan::drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar) {
@@ -91,6 +113,10 @@ void Cyan::drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar) {
 		circle.setPosition(sf::Vector2f(mouseposx - radius, toolbar.BoundaryLimit() + 2));
 	}
 	createwindow.draw(circle);
+}
+
+Cyan::~Cyan()
+{
 }
 
 
@@ -105,6 +131,10 @@ void Green::drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar) {
 	createwindow.draw(circle);
 }
 
+Green::~Green()
+{
+}
+
 
 void White::drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar) {
 	uint8_t radius = minbrushradius;
@@ -116,4 +146,8 @@ void White::drawEntity(sf::RenderWindow &createwindow, const Toolbar& toolbar) {
 	}
 	createwindow.draw(circle);
 
+}
+
+White::~White()
+{
 }

@@ -167,6 +167,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AirBrush.h" />
     <ClInclude Include="DrawStatus.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Text.h" />
@@ -176,10 +177,12 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="ShapeFactory.h" />
+    <ClInclude Include="TextFactory.h" />
     <ClInclude Include="Toolbar.h" />
     <ClInclude Include="Undo.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AirBrush.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Paint.cpp" />
     <ClCompile Include="pch.cpp">

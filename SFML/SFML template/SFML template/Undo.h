@@ -11,6 +11,7 @@ public:
 
 	std::string getTypeID() const;
 private:
+
 	std::stack<Entity*> undo;
-	std::string typeID;
+	std::string typeID;			
 };

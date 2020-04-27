@@ -70,13 +70,10 @@ public:
 					status[i].initializeEntity = false;
 				}
 			}
-		}
-		
+		}		
 	}
-
 
 private:
 	Paint* p = nullptr;
 	std::unordered_map<draw, int> drawstatuspair;
-
 };

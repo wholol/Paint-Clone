@@ -11,6 +11,7 @@ public:
 	void setMousePos(sf::RenderWindow& createwindow,const sf::Mouse& mouse);
 	void addtoString(sf::RenderWindow& createwindow, const Toolbar& toolbar);
 	~Text();
+
 private:
 	sf::Text text;
 	sf::Font font;		//load font.

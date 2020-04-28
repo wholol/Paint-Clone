@@ -193,7 +193,7 @@ void circle::drawEntity(sf::RenderWindow& createwindow, const Toolbar& toolbar) 
 		createwindow.draw(points);
 }
 
-void circle::setMousePos(const sf::Mouse & mouse, sf::RenderWindow & createwindow, Shape & shape, const Toolbar & toolbar)
+void circle::setMousePos(const sf::Mouse & mouse, sf::RenderWindow & createwindow, Shape& shape, const Toolbar & toolbar)
 {
 	float radius = sqrt(pow(storenodes[1].loc.posx - storenodes[0].loc.posx, 2.0f) + pow(storenodes[1].loc.posy - storenodes[0].loc.posy, 2.0f));	//get the radius
 	

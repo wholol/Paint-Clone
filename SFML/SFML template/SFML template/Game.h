@@ -13,7 +13,6 @@
 #include "AirBrush.h"
 #include "AirBrushFactory.h"
 
-
 class Game {			//game class. should have render, update/events, quit and initialize.
 
 public:
@@ -23,28 +22,39 @@ public:
 	Game(Game &&other) = delete;						//no moving game object
 	~Game();
 	
-	void main_menu();
 	void update();					//update logic
 	void render();					//rende r
 	bool quit();					//quit the window
 
 private:
+	/*undo object*/
 	Undo undo;
+
+	/*object generators*/
 	PaintFactory pf;
 	ShapeFactory sf;
-	TextFactory tf;
+	TextFactory tf;					
 	AirBrushFactory af;
+
+	/*object holders*/
 	Shape* shape = nullptr;			
 	Paint* paint = nullptr;
 	Text* text = nullptr;
 	AirBrush* airbrush = nullptr;
+
+	/*toolbar object*/
 	Toolbar toolbar;
+
+	draw chooseColor;	//choose colour
+	std::vector<draw> colourpalette;		//stores enum of colour palletes.
+
 	std::vector<drawstatus> status;	//stores the drawstatus of shapes
+
 	std::vector <Entity*> storeEntities;		//store shapes to be drawn onto the screen.
+
 	bool quitgame = false;			//quit game
-	bool MainMenu = true;		
-	sf::Mouse mouse;
+
+	sf::Mouse mouse;					//mouse class
 	sf::Event event;					//events class
 	sf::RenderWindow createwindow;		//windows class
-	bool GameOver = false;				//gameover boolean
 };

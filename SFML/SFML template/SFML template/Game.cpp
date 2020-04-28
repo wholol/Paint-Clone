@@ -5,13 +5,24 @@
 Game::Game(int screenwidth, int screenheight, const std::string& title, int framerate)
 	:createwindow(sf::VideoMode(screenwidth, screenheight), title),
 	toolbar(screenwidth , screenheight)
-	
 {
 	assert(screenheight == 800);
 	assert(screenwidth == 1400);
-	for (int i = 0; i <= 13; ++i) {
+	for (int i = 0; i <= 6; ++i) {
 		status.push_back({ false , false  , false });
 	}
+
+	/*initialzie colour palettes*/
+	colourpalette.emplace_back(draw::blackpaint);
+	colourpalette.emplace_back(draw::whitepaint);
+	colourpalette.emplace_back(draw::bluepaint);
+	colourpalette.emplace_back(draw::greenpaint);
+	colourpalette.emplace_back(draw::yellowpaint);
+	colourpalette.emplace_back(draw::redpaint);
+	colourpalette.emplace_back(draw::magentapaint);
+	colourpalette.emplace_back(draw::cyanpaint);
+
+
 }
 
 void Game::render() {		//rendering
@@ -25,12 +36,7 @@ void Game::render() {		//rendering
 	for (const auto &x : storeEntities) {		//draw all shapes
 		x->drawEntity(createwindow, toolbar);
 	}
-
 	 createwindow.display();
-}
-
-void Game::main_menu()
-{
 }
 
 void Game::update() {		//update game /logic
@@ -91,27 +97,34 @@ void Game::update() {		//update game /logic
 			}
 		}
 	}
-
-	/*paint logic*/
-	pf.setStatus(toolbar.ChooseFeature(mouse, createwindow), status);
-	for (int i = 4; i <= 11; ++i) {			//for each paint status (DO NOT loop for shapes)
-		if (status[i].initializeEntity) {		//if it has been initializd by the setstatus function
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {		//if right clicked
-				pf.getObject(&paint, i);					//make new object of type i if right click is pressed.
-				paint->setMousePos(mouse, createwindow);
-				undo.push(paint);
-				storeEntities.emplace_back(paint);
+	
+		/*paint logic*/
+		pf.setStatus(toolbar.ChooseFeature(mouse, createwindow), status);		//set the status for paint
+		if (status[4].initializeEntity) {		//if it has been initializd by the setstatus function
+			
+			if (std::any_of(colourpalette.cbegin(), colourpalette.cend(), [&](const draw& x) {return toolbar.ChooseFeature(mouse , createwindow) == x; })){
+				std::cout << "choose a colour!" << std::endl;
+				chooseColor = toolbar.ChooseFeature(mouse, createwindow);
 			}
+
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {		//if right clicked
+					pf.getObject(&paint, chooseColor);					//make new object of type i if right click is pressed.
+					paint->setColour(chooseColor);
+					paint->setMousePos(mouse, createwindow);
+					paint->resize(mouse, createwindow, toolbar);
+					undo.push(paint);
+					storeEntities.emplace_back(paint);
+				}
+		
 		}
-	}
+	
 
 	createwindow.clear(sf::Color::White);
 
 	/*text logic*/
 	tf.getObject(&text, storeEntities, toolbar.ChooseFeature(mouse, createwindow), event);	//generate a shape object
 	tf.setStatus(toolbar.ChooseFeature(mouse, createwindow), status);	//set the status of the shape
-	if (status[12].initializeEntity) {
-		
+	if (status[5].initializeEntity) {
 		text->setMousePos(createwindow, mouse);
 		text->resize(mouse, createwindow, toolbar);
 		text->addtoString(createwindow, toolbar);			//add characters to string.
@@ -119,14 +132,14 @@ void Game::update() {		//update game /logic
 			storeEntities.emplace_back(text);
 			undo.push(text);
 			std::cout << "stored text to vector" << std::endl;
-			status[12].initializeEntity = false;
+			status[5].initializeEntity = false;
 			text = nullptr;
 		}
 	}
-
 	
+	/*airbrush logic*/
 	af.setStatus(toolbar.ChooseFeature(mouse, createwindow), status);	//set the status of the shape
-	if (status[13].initializeEntity) {
+	if (status[6].initializeEntity) {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 			af.getObject(&airbrush, storeEntities, toolbar.ChooseFeature(mouse, createwindow));	//generate a shape object
 			airbrush->setMousePos(createwindow, mouse);

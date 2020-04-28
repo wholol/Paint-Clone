@@ -14,7 +14,6 @@ Game::Game(int screenwidth, int screenheight, const std::string& title, int fram
 	}
 }
 
-
 void Game::render() {		//rendering
 
 	toolbar.DrawMenuBar(createwindow);			//draw menu bar
@@ -107,7 +106,6 @@ void Game::update() {		//update game /logic
 			}
 		}
 	}
-
 
 	/*text logic*/
 	createwindow.clear(sf::Color::White);

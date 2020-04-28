@@ -25,7 +25,6 @@ public:
 	}
 
 	void setStatus(draw d, std::vector<drawstatus>& status) {
-		
 		if (d == draw::text) {
 
 			status[textstatus].initializeEntity = true;

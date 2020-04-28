@@ -21,6 +21,7 @@ enum class draw {
 	whitepaint,
 	clear,
 	text,
+	airbrush,
 	size_1,
 	size_2,
 	size_3,

@@ -23,7 +23,6 @@ Toolbar::Toolbar(int screenwidth, int screenheight) :
 
 void Toolbar::DrawMenuBar(sf::RenderWindow& createwindow) {
 
-
 	createwindow.draw(shapesprite);
 
 	miscsprite.setPosition(sf::Vector2f(0.0f, PaintTileHeight)); // absolute position
@@ -57,7 +56,6 @@ void Toolbar::DrawMenuBar(sf::RenderWindow& createwindow) {
 		}
 	}
 }
-
 
 draw Toolbar::ChooseFeature(const sf::Mouse& mouse, sf::RenderWindow& createwindow) {
 
@@ -115,8 +113,10 @@ draw Toolbar::ChooseFeature(const sf::Mouse& mouse, sf::RenderWindow& createwind
 			return draw::whitepaint;
 		}
 
-
 		//misc features
+		if (mouse.getPosition(createwindow).x >= 0 && mouse.getPosition(createwindow).x <= PaintTileWidth && mouse.getPosition(createwindow).y >= PaintTileHeight && mouse.getPosition(createwindow).y <= PaintTileHeight * 2) {
+			return draw::airbrush;
+		}
 
 		if (mouse.getPosition(createwindow).x >= PaintTileWidth && mouse.getPosition(createwindow).x <= PaintTileWidth * 2 && mouse.getPosition(createwindow).y >= PaintTileHeight && mouse.getPosition(createwindow).y <= PaintTileHeight * 2) {
 			return draw::clear;

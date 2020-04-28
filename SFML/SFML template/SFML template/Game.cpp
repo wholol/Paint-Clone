@@ -7,15 +7,12 @@ Game::Game(int screenwidth, int screenheight, const std::string& title, int fram
 	toolbar(screenwidth , screenheight)
 	
 {
-	point = new sf::VertexArray(sf::Points, 2073600);
 	assert(screenheight == 800);
 	assert(screenwidth == 1400);
-
-	for (int i = 0; i <= 12; ++i) {
+	for (int i = 0; i <= 13; ++i) {
 		status.push_back({ false , false  , false });
 	}
 }
-
 
 void Game::render() {		//rendering
 
@@ -114,6 +111,7 @@ void Game::update() {		//update game /logic
 	tf.getObject(&text, storeEntities, toolbar.ChooseFeature(mouse, createwindow), event);	//generate a shape object
 	tf.setStatus(toolbar.ChooseFeature(mouse, createwindow), status);	//set the status of the shape
 	if (status[12].initializeEntity) {
+		
 		text->setMousePos(createwindow, mouse);
 		text->resize(mouse, createwindow, toolbar);
 		text->addtoString(createwindow, toolbar);			//add characters to string.
@@ -123,6 +121,19 @@ void Game::update() {		//update game /logic
 			std::cout << "stored text to vector" << std::endl;
 			status[12].initializeEntity = false;
 			text = nullptr;
+		}
+	}
+
+	
+	af.setStatus(toolbar.ChooseFeature(mouse, createwindow), status);	//set the status of the shape
+	if (status[13].initializeEntity) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+			af.getObject(&airbrush, storeEntities, toolbar.ChooseFeature(mouse, createwindow));	//generate a shape object
+			airbrush->setMousePos(createwindow, mouse);
+			airbrush->resize(mouse, createwindow, toolbar);
+			airbrush->generatePoints(createwindow, mouse);
+			storeEntities.emplace_back(airbrush);
+			undo.push(airbrush);
 		}
 	}
 
@@ -143,28 +154,6 @@ void Game::update() {		//update game /logic
 		undo.clear();				//clear stack frame for undo
 		storeEntities.clear();			//resize container to zero
 	}
-
-	int getmouseposx = 0;
-	int getmouseposy = 0;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
-		getmouseposx = mouse.getPosition(createwindow).x;
-		getmouseposy = mouse.getPosition(createwindow).y;
-
-	}
-		const int radtest = 40;
-
-		//for each angle
-		for (int rad = 0;rad <= 90 ; ++rad)
-			for (int j = getmouseposy; j < (getmouseposy + radtest); ++j) {			//for each ypos
-				for (int i = getmouseposx; i < (getmouseposx + radtest); ++i) {		//for each xpos in each ypos
-					(*point)[int(i) * 1400 + int(j)].position = sf::Vector2f(int( i ), int(j));
-					if ((*point)[int(i) * 1400 + int(j)].color != sf::Color::Red) {
-						(*point)[int(i) * 1400 + int(j)].color = sf::Color::Red;
-					}
-				}
-			}
-		
-	createwindow.draw(*point);
 }
 
 
@@ -193,8 +182,6 @@ Game::~Game()	{
 		delete shape;			//delete instatiated shapes that are not emplaced back into the storeEntities vector (this happens when a user clicks on a shape and closes the window).
 		shape = nullptr;
 	}
-
-	delete[] point;
 
 	if (!(std::any_of(storeEntities.cbegin(), storeEntities.cend(), [&](Entity* s) {return text == s; }))) {
 		delete text;			//delete instatiated text that are not emplaced back into the storeEntities vector (this happens when a user clicks on a shape and closes the window).

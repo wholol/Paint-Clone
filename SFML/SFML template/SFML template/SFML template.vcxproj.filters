@@ -54,6 +54,9 @@
     <ClInclude Include="AirBrush.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="AirBrushFactory.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">

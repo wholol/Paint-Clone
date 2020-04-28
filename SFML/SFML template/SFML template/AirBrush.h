@@ -2,6 +2,7 @@
 #include "Toolbar.h"
 #include "Entity.h"
 #include <random>
+
 class AirBrush: public Entity {
 
 public:
@@ -16,14 +17,17 @@ private:
 	sf::VertexArray points;
 	int mouseposx;
 	int mouseposy;			
-	int posxpixel;
-	int posypixel;
+	int posxpixel_1;
+	int posypixel_1;
+	int posxpixel_2;
+	int posypixel_2;
+	int posxpixel_3;
+	int posypixel_3;
+
 	static constexpr uint8_t AirBrushMinDimension = 25;			//25 x 25  (minimum dimensions)
 	static constexpr uint8_t AirBrushMaxDimension = 75;			//25 x 25 (maximum dimensions)
 	int AirBrushCurrentDimension;
 	std::mt19937 rng;
 	std::uniform_int_distribution<int> xpos;
 	std::uniform_int_distribution<int> ypos;
-
-
 };

@@ -6,6 +6,7 @@
 class PaintFactory {		//generates objects and status, and the status.
 
 public:
+
 	PaintFactory(){
 		drawstatuspair.insert(std::make_pair( draw::redpaint, 4 ));
 		drawstatuspair.insert(std::make_pair(draw::bluepaint, 5));

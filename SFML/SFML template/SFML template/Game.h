@@ -10,6 +10,8 @@
 #include "Undo.h"
 #include "Text.h"
 #include "TextFactory.h"
+#include "AirBrush.h"
+#include "AirBrushFactory.h"
 
 
 class Game {			//game class. should have render, update/events, quit and initialize.
@@ -31,9 +33,11 @@ private:
 	PaintFactory pf;
 	ShapeFactory sf;
 	TextFactory tf;
+	AirBrushFactory af;
 	Shape* shape = nullptr;			
 	Paint* paint = nullptr;
 	Text* text = nullptr;
+	AirBrush* airbrush = nullptr;
 	Toolbar toolbar;
 	std::vector<drawstatus> status;	//stores the drawstatus of shapes
 	std::vector <Entity*> storeEntities;		//store shapes to be drawn onto the screen.
@@ -43,6 +47,4 @@ private:
 	sf::Event event;					//events class
 	sf::RenderWindow createwindow;		//windows class
 	bool GameOver = false;				//gameover boolean
-	sf::VertexArray* point = nullptr;
-	
 };

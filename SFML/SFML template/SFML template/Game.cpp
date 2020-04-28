@@ -22,7 +22,6 @@ Game::Game(int screenwidth, int screenheight, const std::string& title, int fram
 	colourpalette.emplace_back(draw::magentapaint);
 	colourpalette.emplace_back(draw::cyanpaint);
 
-
 }
 
 void Game::render() {		//rendering
@@ -108,38 +107,19 @@ void Game::update() {		//update game /logic
 			}
 
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {		//if right clicked
-					pf.getObject(&paint, chooseColor);					//make new object of type i if right click is pressed.
+					pf.getObject(&paint);					//make new object of type i if right click is pressed.
 					paint->setColour(chooseColor);
 					paint->setMousePos(mouse, createwindow);
 					paint->resize(mouse, createwindow, toolbar);
 					undo.push(paint);
 					storeEntities.emplace_back(paint);
 				}
-		
 		}
-	
 
-	createwindow.clear(sf::Color::White);
 
-	/*text logic*/
-	tf.getObject(&text, storeEntities, toolbar.ChooseFeature(mouse, createwindow), event);	//generate a shape object
-	tf.setStatus(toolbar.ChooseFeature(mouse, createwindow), status);	//set the status of the shape
-	if (status[5].initializeEntity) {
-		text->setMousePos(createwindow, mouse);
-		text->resize(mouse, createwindow, toolbar);
-		text->addtoString(createwindow, toolbar);			//add characters to string.
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-			storeEntities.emplace_back(text);
-			undo.push(text);
-			std::cout << "stored text to vector" << std::endl;
-			status[5].initializeEntity = false;
-			text = nullptr;
-		}
-	}
-	
 	/*airbrush logic*/
 	af.setStatus(toolbar.ChooseFeature(mouse, createwindow), status);	//set the status of the shape
-	if (status[6].initializeEntity) {
+	if (status[6].initializeEntity) {							 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 			af.getObject(&airbrush, storeEntities, toolbar.ChooseFeature(mouse, createwindow));	//generate a shape object
 			airbrush->setMousePos(createwindow, mouse);
@@ -149,13 +129,38 @@ void Game::update() {		//update game /logic
 			undo.push(airbrush);
 		}
 	}
+	
+	createwindow.clear(sf::Color::White);
+	/* entities below are not immediately empalaced back into the storeEntites vector, hence it should be after clearing the screen so that it can be seen*/
+	/*for example, texts not immediately empalced back into the vector*/
+	
+	/*text logic*/
+	tf.getObject(&text, storeEntities, toolbar.ChooseFeature(mouse, createwindow), event);	//generate a text object
+	tf.setStatus(toolbar.ChooseFeature(mouse, createwindow), status);	//set the status of the text
+	if (status[5].initializeEntity) {		//if text status turns true
 
+		if (std::any_of(colourpalette.cbegin(), colourpalette.cend(), [&](const draw& x) {return toolbar.ChooseFeature(mouse, createwindow) == x; })) {
+			chooseColor = toolbar.ChooseFeature(mouse, createwindow);		//choosecolor for text
+		}
+
+		text->setMousePos(createwindow, mouse);
+		text->clampMousePos(toolbar);			//prevent textbox from going above the boundary line.
+		text->setTextColour(chooseColor);
+		text->resize(mouse, createwindow, toolbar);			//resize the text	
+		text->addtoString(createwindow, toolbar);			//add characters to string.
+		text->displayText(createwindow, toolbar);			//display current text on the window
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {		//if the user wants to put text into canvas
+			storeEntities.emplace_back(text);		//emplace back text object
+			undo.push(text);						
+			status[5].initializeEntity = false;		//reset status to false
+			text = nullptr;							//reset to nullptr.
+		}
+	}
+	
 	/*undo logic*/
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z) && sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {		//prorably get the type id
-		
-		std::cout << undo.getTypeID() << std::endl;
-
-		if (undo.getTypeID() != "none") {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z) && sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {	//undo drawings done (CTRL+Z)
+		if (undo.getTypeID() != "none") {	
 			if (storeEntities.size() > 0) {
 				storeEntities.pop_back();
 			}
@@ -163,16 +168,16 @@ void Game::update() {		//update game /logic
 		}
 	}
 
+	/*clear whole screen logic*/
 	if (toolbar.ChooseFeature(mouse,createwindow) == draw::clear) {		
 		undo.clear();				//clear stack frame for undo
-		storeEntities.clear();			//resize container to zero
+		storeEntities.clear();		//resize container to zero
 	}
 }
 
-
 bool Game::quit()			//call quit game
 
-//DO NOT DELETE CONTENTS OF THIS FUNCTION TO PREVENT AN UNRESPONSIV SCREEN//
+//DO NOT DELETE CONTENTS OF THIS FUNCTION TO PREVENT AN UNRESPONSIVE SCREEN//
 {
 	while (createwindow.pollEvent(event)) {		//NON BLOCKING FUNCTION, WILL NOT GET STUCK IN WHILE LOOP.
 		if (event.type == sf::Event::Closed) {
@@ -185,7 +190,7 @@ bool Game::quit()			//call quit game
 
 Game::~Game()	{
 	
-	for (auto& x : storeEntities) {
+	for (auto& x : storeEntities) {			
 		delete x;
 		x = nullptr;
 	}

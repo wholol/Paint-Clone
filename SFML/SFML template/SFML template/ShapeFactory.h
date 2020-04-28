@@ -63,7 +63,7 @@ public:
 
 			p = new circle();
 			*shape = p;
-			std::cout << "deleting shape entity of type:" << typeid(**shape).name() << std::endl;
+			std::cout << "shape generated of type: " << typeid(**shape).name() << std::endl;
 		}
 	}
 

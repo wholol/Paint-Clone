@@ -6,6 +6,7 @@
 class AirBrush: public Entity {
 
 public:
+
 	AirBrush();			//construct vertex array of points.
 	void drawEntity(sf::RenderWindow& createwindow, const Toolbar& toolbar) override;
 	void resize(const sf::Mouse& mouse, sf::RenderWindow& createwindow, const Toolbar& toolbar) override;
@@ -14,9 +15,11 @@ public:
 	~AirBrush();
 
 private:
-	sf::VertexArray points;
+	sf::VertexArray points;			//points for vertexarray
 	int mouseposx;
-	int mouseposy;			
+	int mouseposy;	
+
+	/*rng pixels*/
 	int posxpixel_1;
 	int posypixel_1;
 	int posxpixel_2;
@@ -27,6 +30,7 @@ private:
 	static constexpr uint8_t AirBrushMinDimension = 25;			//25 x 25  (minimum dimensions)
 	static constexpr uint8_t AirBrushMaxDimension = 75;			//25 x 25 (maximum dimensions)
 	int AirBrushCurrentDimension;
+	
 	std::mt19937 rng;
 	std::uniform_int_distribution<int> xpos;
 	std::uniform_int_distribution<int> ypos;

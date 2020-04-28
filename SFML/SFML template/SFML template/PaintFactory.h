@@ -7,8 +7,7 @@ class PaintFactory {		//generates objects and status, and the status.
 
 public:
 
-	
-	void getObject(Paint** paint,draw d) {
+	void getObject(Paint** paint) {
 			p = new Paint();
 			std::cout << "paint entity created." << std::endl;
 			*paint = p;
@@ -18,13 +17,13 @@ public:
 
 		if (d == draw::paint) {
 			status[drawpaintstatus].initializeEntity = true;
-		}
 
-		for (int i = 0; i < status.size(); ++i) {		
-			if (i != drawpaintstatus) {
-				status[i].initializeEntity = false;
+			for (int i = 0; i < status.size(); ++i) {
+				if (i != drawpaintstatus) {
+					status[i].initializeEntity = false;
+				}
 			}
-		}			
+		}
 	}
 
 private:

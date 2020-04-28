@@ -32,5 +32,5 @@ public:
 
 private:
 	AirBrush* a = nullptr;
-	static constexpr uint8_t airbrushstatus = 13;
+	static constexpr uint8_t airbrushstatus = 6;
 };

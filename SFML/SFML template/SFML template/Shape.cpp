@@ -24,31 +24,17 @@ void Shape::operator delete(void* memory, size_t size) {
 }
 
 Shape::~Shape()
-{
-}
+{}
 
 void Shape::resize(const sf::Mouse& mouse, sf::RenderWindow& createwindow, const Toolbar& toolbar) {
 	
 	for (int i = 0; i < storenodes.size(); ++i) {	//for each node
-
 		if (sqrt(pow(storenodes[i].loc.posx - mouse.getPosition(createwindow).x, 2) + pow(storenodes[i].loc.posy - mouse.getPosition(createwindow).y, 2)) < 30.0f) {
 			circlepoints[i].setFillColor(sf::Color::Cyan);
 			storenodes[i].loc.posx = mouse.getPosition(createwindow).x;
 			storenodes[i].loc.posy = mouse.getPosition(createwindow).y;
 
-		/*	if (typeid(*this).name() == "struct circle") {
-				std::cout << "resize circle" << std::endl;
-				float radius = sqrt(pow(storenodes[1].loc.posx - storenodes[0].loc.posx, 2.0f) + pow(storenodes[1].loc.posy - storenodes[0].loc.posy, 2.0f));
-				if (storenodes[0].loc.posy - toolbar.BoundaryLimit() <= radius + 2) {			//check is radius exceeds the boundary
-					float center2mouseradius = sqrt(pow(mouse.getPosition(createwindow).x - storenodes[0].loc.posx, 2.0f) + pow(mouse.getPosition(createwindow).y - storenodes[0].loc.posy, 2.0f));
-					if (center2mouseradius < radius) {			//if the mouse position is lesser than the radius position
-						this->storenodes[1].loc.posy = mouse.getPosition(createwindow).y;
-						this->storenodes[1].loc.posx = mouse.getPosition(createwindow).x;
-					}
-				}
-			}  */
-
-			if (storenodes[i].loc.posy <= toolbar.BoundaryLimit()) {
+			if (storenodes[i].loc.posy <= toolbar.BoundaryLimit()) {		//prevent uses from resizing over the bar.
 				storenodes[i].loc.posy = toolbar.BoundaryLimit();
 			}
 		}

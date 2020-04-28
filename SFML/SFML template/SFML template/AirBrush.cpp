@@ -47,7 +47,7 @@ void AirBrush::setMousePos(sf::RenderWindow& createwindow, const sf::Mouse& mous
 	mouseposy = mouse.getPosition(createwindow).y;
 }
 
-void AirBrush::generatePoints(sf::RenderWindow& createwindow, const sf::Mouse& mouse)
+void AirBrush::generatePoints(sf::RenderWindow& createwindow, const sf::Mouse& mouse)		//generate points to paint on the canvas
 {
 	posxpixel_1 = xpos(rng);
 	while (posxpixel_1 > AirBrushCurrentDimension){

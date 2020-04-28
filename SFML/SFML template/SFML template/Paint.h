@@ -15,7 +15,8 @@ public:
 	~Paint();
 
 private:
-	sf::Color getColour() const;
+
+
 	static constexpr uint8_t minbrushradius = 25;		//maximum radius of the brush.
 	static constexpr uint8_t maxbrushradius = 50;	//minimum radius of the brush.
 	int mouseposx, mouseposy, circlesize;

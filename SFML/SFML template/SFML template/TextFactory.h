@@ -39,7 +39,7 @@ public:
 
 private:
 	Text* t = nullptr;
-	static constexpr int textstatus = 12;
+	static constexpr int textstatus = 5;
 
 
 };

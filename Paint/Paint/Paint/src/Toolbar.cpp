@@ -17,7 +17,7 @@ Toolbar::Toolbar(int screenwidth, int screenheight) :
 	shapesprite.setTexture(shapetext);
 	misctext.loadFromFile(misctoolbar);
 	miscsprite.setTexture(misctext);
-	
+
 	colormap.insert({ std::make_pair(4, 0), sf::Color::Red } );
 	colormap.insert({ std::make_pair(4, 1), sf::Color::Yellow});
 	colormap.insert({ std::make_pair(5, 0), sf::Color::Blue });

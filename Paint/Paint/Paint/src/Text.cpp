@@ -1,11 +1,13 @@
 #include "Text.h"
 #include <iostream>
 #include <thread>
-
+#include <assert.h>
 
 Text::Text(sf::Event& event) 
 	:event(event) {
-	if (!font.loadFromFile("fonts/Bebas-Regular.ttf")) {
+	const std::string textpath = "fonts/Bebas-Regular.ttf";
+	assert(textpath == "fonts/Bebas-Regular.ttf");
+	if (!font.loadFromFile(textpath)) {
 		std::cout << "failed to load font file" << std::endl;
 	}
 

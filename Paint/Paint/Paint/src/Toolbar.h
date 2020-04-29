@@ -11,7 +11,7 @@ enum class draw {
 	rect,
 	spline,
 	circle,
-	redpaint,		
+	redpaint,
 	yellowpaint,
 	bluepaint,
 	blackpaint,
@@ -20,11 +20,9 @@ enum class draw {
 	greenpaint,
 	whitepaint,
 	clear,
-	floodfill,
-	size_1,
-	size_2,
-	size_3,
-	size_4
+	text,
+	airbrush,
+	paint
 };
 
 class Toolbar {

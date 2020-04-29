@@ -12,29 +12,15 @@ void Shape::makenode(const sf::Mouse& mousepos, sf::RenderWindow& createwindow) 
 		}
 }
 
-void Shape::resize(const sf::Mouse& mouse, sf::RenderWindow& createwindow, const Toolbar& toolbar) {
+void Shape::resize(const sf::Mouse& mouse, sf::RenderWindow& createwindow) {		
 	
 	for (int i = 0; i < storenodes.size(); ++i) {	//for each node
-
 		if (sqrt(pow(storenodes[i].loc.posx - mouse.getPosition(createwindow).x, 2) + pow(storenodes[i].loc.posy - mouse.getPosition(createwindow).y, 2)) < 30.0f) {
 			circlepoints[i].setFillColor(sf::Color::Cyan);
 			storenodes[i].loc.posx = mouse.getPosition(createwindow).x;
 			storenodes[i].loc.posy = mouse.getPosition(createwindow).y;
-
-		/*	if (typeid(*this).name() == "struct circle") {
-				std::cout << "resize circle" << std::endl;
-				float radius = sqrt(pow(storenodes[1].loc.posx - storenodes[0].loc.posx, 2.0f) + pow(storenodes[1].loc.posy - storenodes[0].loc.posy, 2.0f));
-				if (storenodes[0].loc.posy - toolbar.BoundaryLimit() <= radius + 2) {			//check is radius exceeds the boundary
-					float center2mouseradius = sqrt(pow(mouse.getPosition(createwindow).x - storenodes[0].loc.posx, 2.0f) + pow(mouse.getPosition(createwindow).y - storenodes[0].loc.posy, 2.0f));
-					if (center2mouseradius < radius) {			//if the mouse position is lesser than the radius position
-						this->storenodes[1].loc.posy = mouse.getPosition(createwindow).y;
-						this->storenodes[1].loc.posx = mouse.getPosition(createwindow).x;
-					}
-				}
-			}  */
-
-			if (storenodes[i].loc.posy <= toolbar.BoundaryLimit()) {
-				storenodes[i].loc.posy = toolbar.BoundaryLimit();
+			if (storenodes[i].loc.posy <= Limit) {		//prevent uses from resizing over the bar.
+				storenodes[i].loc.posy = Limit;
 			}
 		}
 	
@@ -44,19 +30,24 @@ void Shape::resize(const sf::Mouse& mouse, sf::RenderWindow& createwindow, const
 	}
 }
 
-void Shape::setMousePos(const sf::Mouse& mouse, sf::RenderWindow& createwindow, Shape& shape, const Toolbar& toolbar)
+Shape::~Shape()
 {
-	if (shape.storenodes[1].loc.posy >= toolbar.BoundaryLimit()) {
-		shape.storenodes[1].loc.posx = mouse.getPosition(createwindow).x;
-		shape.storenodes[1].loc.posy = mouse.getPosition(createwindow).y;
-	}
-
-	if (shape.storenodes[1].loc.posy <= toolbar.BoundaryLimit()) {
-		shape.storenodes[1].loc.posx = mouse.getPosition(createwindow).x;
-		shape.storenodes[1].loc.posy = toolbar.BoundaryLimit();
-	}
 }
 
+void Shape::setMousePos(const sf::Mouse& mouse, sf::RenderWindow& createwindow)
+{
+		this->storenodes[1].loc.posx = mouse.getPosition(createwindow).x;
+		this->storenodes[1].loc.posy = mouse.getPosition(createwindow).y;
+}
+
+void Shape::clampMousePos()
+{
+	for (int i = 0; i < storenodes.size(); ++i) {	//prevent mouse position from going out of bounds.
+		if (storenodes[i].loc.posy <= Limit) {		//prevent uses from resizing over the bar.
+			storenodes[i].loc.posy = Limit;
+		}
+	}
+}
 	
 line::line() : Shape()		//constructor
 {
@@ -65,7 +56,7 @@ line::line() : Shape()		//constructor
 }
 
 
-void line::drawEntity(sf::RenderWindow& createwindow, const Toolbar& toolbar){
+void line::drawEntity(sf::RenderWindow& createwindow){
 
 	for (int i = 0; i < maxnodes; ++i) {		//construct node points
 		circlepoints.emplace_back(pointradius);
@@ -79,14 +70,16 @@ void line::drawEntity(sf::RenderWindow& createwindow, const Toolbar& toolbar){
 
 	for (int i = 0; i < maxnodes; ++i) {
 		circlepoints[i].setPosition(sf::Vector2f(storenodes[i].loc.posx - pointradius, storenodes[i].loc.posy - pointradius));
-		if (storenodes[i].loc.posy - pointradius <= toolbar.BoundaryLimit()) {
-			circlepoints[i].setPosition(sf::Vector2f(storenodes[i].loc.posx - pointradius, toolbar.BoundaryLimit() + 2 - pointradius));
+		if (storenodes[i].loc.posy - pointradius <= Limit) {
+			circlepoints[i].setPosition(sf::Vector2f(storenodes[i].loc.posx - pointradius, Limit + 2 - pointradius));
 		}
 		createwindow.draw(circlepoints[i]);
 	}
-
 	createwindow.draw(line, 2, sf::Lines);
 }
+
+line::~line()
+{}
 
 
 cube::cube() : Shape() {
@@ -99,7 +92,7 @@ cube::cube() : Shape() {
 }
 
 
-void cube::drawEntity(sf::RenderWindow& createwindow, const Toolbar& toolbar)  {
+void cube::drawEntity(sf::RenderWindow& createwindow)  {
 
 	for (int i = 0; i < maxnodes; ++i) {
 		circlepoints[i].setPosition(sf::Vector2f(storenodes[i].loc.posx - pointradius, storenodes[i].loc.posy - pointradius));
@@ -136,13 +129,15 @@ void cube::drawEntity(sf::RenderWindow& createwindow, const Toolbar& toolbar)  {
 		createwindow.draw(vertical_line_2, 2, sf::Lines);
 }
 
+cube::~cube()
+{}
+
 circle::circle() : Shape() {
 	maxnodes = 2;
 	storenodes.reserve(maxnodes);
 }
 
-
-void circle::drawEntity(sf::RenderWindow& createwindow, const Toolbar& toolbar) {
+void circle::drawEntity(sf::RenderWindow& createwindow) {
 	
 	for (int i = 0; i < maxnodes; ++i) {
 		circlepoints.emplace_back(pointradius);
@@ -170,32 +165,36 @@ void circle::drawEntity(sf::RenderWindow& createwindow, const Toolbar& toolbar) 
 		createwindow.draw(points);
 }
 
-void circle::setMousePos(const sf::Mouse & mouse, sf::RenderWindow & createwindow, Shape & shape, const Toolbar & toolbar)
+void circle::setMousePos(const sf::Mouse& mouse, sf::RenderWindow& createwindow)
 {
 	float radius = sqrt(pow(storenodes[1].loc.posx - storenodes[0].loc.posx, 2.0f) + pow(storenodes[1].loc.posy - storenodes[0].loc.posy, 2.0f));	//get the radius
 	
-	if (storenodes[0].loc.posy - toolbar.BoundaryLimit() <= radius + 2) {			//check is radius exceeds the boundary
+	if (storenodes[0].loc.posy - Limit <= radius + 2) {			//check is radius exceeds the boundary
 		float center2mouseradius = sqrt(pow(mouse.getPosition(createwindow).x - storenodes[0].loc.posx, 2.0f) + pow(mouse.getPosition(createwindow).y - storenodes[0].loc.posy, 2.0f));
 		if (center2mouseradius < radius) {			//if the mouse position is lesser than the radius position
-			shape.storenodes[1].loc.posy = mouse.getPosition(createwindow).y;
-			shape.storenodes[1].loc.posx = mouse.getPosition(createwindow).x;
+			this->storenodes[1].loc.posy = mouse.getPosition(createwindow).y;
+			this->storenodes[1].loc.posx = mouse.getPosition(createwindow).x;
 		}
 	}
 	
-	if (storenodes[0].loc.posy - toolbar.BoundaryLimit() >= radius + 2){
-		shape.storenodes[1].loc.posx = mouse.getPosition(createwindow).x;
-		shape.storenodes[1].loc.posy = mouse.getPosition(createwindow).y;
+	if (storenodes[0].loc.posy - Limit >= radius + 2){
+		this->storenodes[1].loc.posx = mouse.getPosition(createwindow).x;
+		this->storenodes[1].loc.posy = mouse.getPosition(createwindow).y;
 	}
 	
+}
+
+
+circle::~circle()
+{
 }
 
 spline::spline():Shape() {
 	maxnodes = 3;
 	storenodes.reserve(maxnodes);
-	
 }
 
-void spline::drawEntity(sf::RenderWindow& createwindow, const Toolbar& toolbar)  {
+void spline::drawEntity(sf::RenderWindow& createwindow)  {
 
 	for (int i = 0; i < maxnodes; ++i) {
 		circlepoints.emplace_back(pointradius);
@@ -226,7 +225,7 @@ void spline::drawEntity(sf::RenderWindow& createwindow, const Toolbar& toolbar) 
 		createwindow.draw(splinepoints);
 }
 
-void spline::setMousePos(const sf::Mouse& mouse, sf::RenderWindow& createwindow, Shape& shape, const Toolbar& toolbar)
+void spline::setMousePos(const sf::Mouse& mouse, sf::RenderWindow& createwindow)
 {
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Middle)) {
@@ -234,28 +233,32 @@ void spline::setMousePos(const sf::Mouse& mouse, sf::RenderWindow& createwindow,
 	}
 
 	if (drawsecondline) {
-		shape.storenodes[2].loc.posx = mouse.getPosition(createwindow).x;		//move the newest node around
-		shape.storenodes[2].loc.posy = mouse.getPosition(createwindow).y;		//move the newest node around
+		this->storenodes[2].loc.posx = mouse.getPosition(createwindow).x;		//move the newest node around
+		this->storenodes[2].loc.posy = mouse.getPosition(createwindow).y;		//move the newest node around
 	}
 
 	else {		//if second node is not put onto the screen yet
-		if (shape.storenodes[1].loc.posy >= toolbar.BoundaryLimit()) {
-			shape.storenodes[1].loc.posx = mouse.getPosition(createwindow).x;
-			shape.storenodes[1].loc.posy = mouse.getPosition(createwindow).y;
+		if (this->storenodes[1].loc.posy >= Limit) {
+			this->storenodes[1].loc.posx = mouse.getPosition(createwindow).x;
+			this->storenodes[1].loc.posy = mouse.getPosition(createwindow).y;
 		}
 
-		if (shape.storenodes[1].loc.posy <= toolbar.BoundaryLimit()) {
-			shape.storenodes[1].loc.posy = toolbar.BoundaryLimit();
+		if (this->storenodes[1].loc.posy <= Limit) {
+			this->storenodes[1].loc.posy = Limit;
 		}
 	}
 
-	if (shape.storenodes[2].loc.posy >= toolbar.BoundaryLimit()) {
-		shape.storenodes[2].loc.posx = mouse.getPosition(createwindow).x;
-		shape.storenodes[2].loc.posy = mouse.getPosition(createwindow).y;
+	if (this->storenodes[2].loc.posy >= Limit) {
+		this->storenodes[2].loc.posx = mouse.getPosition(createwindow).x;
+		this->storenodes[2].loc.posy = mouse.getPosition(createwindow).y;
 	}
 
-	if (shape.storenodes[2].loc.posy <= toolbar.BoundaryLimit()) {
-		shape.storenodes[2].loc.posy = toolbar.BoundaryLimit();
+	if (this->storenodes[2].loc.posy <= Limit) {
+		this->storenodes[2].loc.posy = Limit;
 	}
 
+}
+
+spline::~spline()
+{
 }

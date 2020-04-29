@@ -1,9 +1,15 @@
 #include "Paint.h"
 #include <iostream>
 
-Paint::Paint()
-	:circle(minbrushradius)				//construct brushradius
+Paint::Paint(Paint* prev)
 {
+	if (prev) {
+		radius = prev->getPaintColour();
+	}
+	else {
+		radius = minbrushradius;
+	}
+
 	/*insert to unordered map*/
 	colourmap.insert(std::make_pair(draw::redpaint, sf::Color::Red));
 	colourmap.insert(std::make_pair(draw::blackpaint, sf::Color::Black));
@@ -15,14 +21,15 @@ Paint::Paint()
 	colourmap.insert(std::make_pair(draw::whitepaint, sf::Color::White));
 }
 
-void Paint::resize(const sf::Mouse& mouse, sf::RenderWindow& createwindow, const Toolbar& toolbar) //resize the paint. Performs bound checks
+void Paint::resize(const sf::Mouse& mouse, sf::RenderWindow& createwindow) //resize the paint. Performs bound checks
 {
-	uint8_t radius = minbrushradius;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-		radius++;
 
 		if (radius >= maxbrushradius) {
 			radius = maxbrushradius;
+		}
+		else {
+			radius++;
 		}
 	}
 
@@ -32,16 +39,23 @@ void Paint::resize(const sf::Mouse& mouse, sf::RenderWindow& createwindow, const
 		if (radius <= minbrushradius) {
 			radius = minbrushradius;
 		}
+		else{
+			radius--;
+		}
 	}
 
 	circle.setRadius(radius);
 	circle.setPosition(sf::Vector2f(mouseposx - radius, mouseposy - radius));
-	if (mouseposy - radius <= toolbar.BoundaryLimit()) {
-		circle.setPosition(sf::Vector2f(mouseposx - radius, toolbar.BoundaryLimit() + 2));
+}
+
+void Paint::clampMousePos()
+{
+	if (mouseposy - radius <= Limit) {
+		mouseposy = (Limit + 2) + radius;			//+ radius to compensate for - radius in the setPosition for circle.
 	}
 }
 
-void Paint::setColour(draw d)
+void Paint::setPaintColour(draw d)
 {
 	auto findcolor = colourmap.find(d);
 	if (findcolor != colourmap.end()) {
@@ -59,10 +73,16 @@ void Paint::setMousePos(const sf::Mouse& mouse, sf::RenderWindow &createwindow) 
 	mouseposy = mouse.getPosition(createwindow).y;
 }
 
-void Paint::drawEntity(sf::RenderWindow & createwindow, const Toolbar& toolbar)
+void Paint::drawEntity(sf::RenderWindow & createwindow)
 {
 	createwindow.draw(circle);
 }
 
 Paint::~Paint()
 {}
+
+int Paint::getPaintColour() const
+{
+	return radius;
+	
+}

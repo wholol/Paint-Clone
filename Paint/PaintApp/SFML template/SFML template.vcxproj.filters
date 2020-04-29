@@ -15,75 +15,75 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h">
+    <ClInclude Include="src\AirBrush.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AirBrushFactory.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DrawStatus.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entity.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Paint.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PaintFactory.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
+    <ClInclude Include="src\Shape.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Toolbar.h">
+    <ClInclude Include="src\ShapeFactory.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="DrawStatus.h">
+    <ClInclude Include="src\Text.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Paint.h">
+    <ClInclude Include="src\TextFactory.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="PaintFactory.h">
+    <ClInclude Include="src\Toolbar.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="ShapeFactory.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Shape.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Undo.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Text.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TextFactory.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AirBrush.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AirBrushFactory.h">
+    <ClInclude Include="src\Undo.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="pch.cpp">
+    <ClCompile Include="src\AirBrush.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
+    <ClCompile Include="src\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Toolbar.cpp">
+    <ClCompile Include="src\Paint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Paint.cpp">
+    <ClCompile Include="src\pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Shape.cpp">
+    <ClCompile Include="src\Shape.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Undo.cpp">
+    <ClCompile Include="src\Text.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Text.cpp">
+    <ClCompile Include="src\Toolbar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AirBrush.cpp">
+    <ClCompile Include="src\Undo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

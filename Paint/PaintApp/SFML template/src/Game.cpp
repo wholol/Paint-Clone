@@ -21,7 +21,6 @@ Game::Game(int screenwidth, int screenheight, const std::string& title, int fram
 	colourpalette.emplace_back(draw::redpaint);
 	colourpalette.emplace_back(draw::magentapaint);
 	colourpalette.emplace_back(draw::cyanpaint);
-
 }
 
 void Game::render() {		//rendering
@@ -29,11 +28,11 @@ void Game::render() {		//rendering
 	toolbar.DrawMenuBar(createwindow);			//draw menu bar
 	
 	if (shape != nullptr && std::any_of(status.begin(), status.end(), [](drawstatus &x) {return x.drawingEntity == true;})) { //draw shape if it is not nullptr and it is in progress of drawing
-		shape->drawEntity(createwindow, toolbar);
+		shape->drawEntity(createwindow);
 	}
 	
 	for (const auto &x : storeEntities) {		//draw all shapes
-		x->drawEntity(createwindow, toolbar);
+		x->drawEntity(createwindow);
 	}
 	 createwindow.display();
 }
@@ -61,15 +60,13 @@ void Game::update() {		//update game /logic
 		if (!(std::any_of(storeEntities.cbegin(), storeEntities.cend(), [&](Entity* s) {return shape == s; }))) {
 			storeEntities.emplace_back(shape);		//emplace back the shape only if the shape has not been emplaced before
 			undo.push(shape);
-			std::cout << "stored shape to vector" << std::endl;
 			shape = nullptr;
-			std::cout << "shape is now nullptr" << std::endl;
 		}
 	}
 
 	for (auto& x : storeEntities) {		//resize shapes if mouse gets near the nodes.
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-			x->resize(mouse, createwindow,toolbar);
+			x->resize(mouse, createwindow);
 		}
 	}
 
@@ -84,47 +81,55 @@ void Game::update() {		//update game /logic
 					status[i].drawingEntity = true;
 				}
 			}
-
-			if (status[i].drawingEntity) {				
+			if (status[i].drawingEntity) {	
+				shape->setLimit(toolbar);
 				shape->makenode(mouse, createwindow);		//make first node	
 				shape->makenode(mouse, createwindow);		//make second node	
 
 				if (i == 2) {		//spline (status[2]). requries 3 nodes. hence, create extra node.
 				shape->makenode(mouse, createwindow);		//make second node	
 				}
-				shape->setMousePos(mouse, createwindow, *shape, toolbar);
+				shape->setMousePos(mouse, createwindow);
+				shape->clampMousePos();
 			}
 		}
 	}
 	
-		/*paint logic*/
-		pf.setStatus(toolbar.ChooseFeature(mouse, createwindow), status);		//set the status for paint
-		if (status[4].initializeEntity) {		//if it has been initializd by the setstatus function
+	/*paint logic*/
+	pf.setStatus(toolbar.ChooseFeature(mouse, createwindow), status);		//set the status for paint
+	if (status[4].initializeEntity) {		//if it has been initializd by the setstatus function
 			
-			if (std::any_of(colourpalette.cbegin(), colourpalette.cend(), [&](const draw& x) {return toolbar.ChooseFeature(mouse , createwindow) == x; })){
-				std::cout << "choose a colour!" << std::endl;
-				chooseColor = toolbar.ChooseFeature(mouse, createwindow);
-			}
-
-				if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {		//if right clicked
-					pf.getObject(&paint);					//make new object of type i if right click is pressed.
-					paint->setColour(chooseColor);
-					paint->setMousePos(mouse, createwindow);
-					paint->resize(mouse, createwindow, toolbar);
-					undo.push(paint);
-					storeEntities.emplace_back(paint);
-				}
+		if (std::any_of(colourpalette.cbegin(), colourpalette.cend(), [&](const draw& x) {return toolbar.ChooseFeature(mouse , createwindow) == x; })){
+			chooseColor = toolbar.ChooseFeature(mouse, createwindow);
 		}
-
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {		//if right clicked
+				pf.getObject(&paint);					//make new object of type i if right click is pressed.
+				paint->setPaintColour(chooseColor);
+				paint->setMousePos(mouse, createwindow);
+				paint->setLimit(toolbar);
+				paint->clampMousePos();
+				paint->resize(mouse, createwindow);
+				undo.push(paint);
+				storeEntities.emplace_back(paint);
+			}
+	}
 
 	/*airbrush logic*/
 	af.setStatus(toolbar.ChooseFeature(mouse, createwindow), status);	//set the status of the shape
-	if (status[6].initializeEntity) {							 
+	if (status[6].initializeEntity) {					
+
+		if (std::any_of(colourpalette.cbegin(), colourpalette.cend(), [&](const draw& x) {return toolbar.ChooseFeature(mouse, createwindow) == x; })) {
+			chooseColor = toolbar.ChooseFeature(mouse, createwindow);		//choosecolor for text
+		}
+
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 			af.getObject(&airbrush, storeEntities, toolbar.ChooseFeature(mouse, createwindow));	//generate a shape object
 			airbrush->setMousePos(createwindow, mouse);
-			airbrush->resize(mouse, createwindow, toolbar);
-			airbrush->generatePoints(createwindow, mouse);
+			airbrush->setAirBrushColour(chooseColor);
+			airbrush->setLimit(toolbar);
+			airbrush->clampMousePos();
+			airbrush->resize(mouse, createwindow);
+			airbrush->generatePoints(createwindow, mouse);		//generate airbrush points
 			storeEntities.emplace_back(airbrush);
 			undo.push(airbrush);
 		}
@@ -144,11 +149,12 @@ void Game::update() {		//update game /logic
 		}
 
 		text->setMousePos(createwindow, mouse);
-		text->clampMousePos(toolbar);			//prevent textbox from going above the boundary line.
+		text->setLimit(toolbar);
+		text->clampMousePos();						//prevent textbox from going above the boundary line.
 		text->setTextColour(chooseColor);
-		text->resize(mouse, createwindow, toolbar);			//resize the text	
-		text->addtoString(createwindow, toolbar);			//add characters to string.
-		text->displayText(createwindow, toolbar);			//display current text on the window
+		text->resize(mouse, createwindow);			//resize the text	
+		text->addtoString();						//add characters to string.
+		text->displayText(createwindow);			//display current text on the window
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {		//if the user wants to put text into canvas
 			storeEntities.emplace_back(text);		//emplace back text object

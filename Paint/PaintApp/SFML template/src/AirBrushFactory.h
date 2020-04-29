@@ -9,7 +9,7 @@ class AirBrushFactory {
 public:
 	void getObject(AirBrush** airbrush, const std::vector<Entity*>& storeEntities, draw d) {
 
-			a = new AirBrush();
+			a = new AirBrush(*airbrush);
 			*airbrush = a;
 			std::cout << "shape generated of type: " << typeid(**airbrush).name() << std::endl;
 		

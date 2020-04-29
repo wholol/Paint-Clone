@@ -8,13 +8,13 @@ class Text : public Entity {
 public:
 
 	Text(sf::Event& e);
-	void drawEntity(sf::RenderWindow& createwindow, const Toolbar& toolbar) override;								//draw completed text on screen
-	void resize(const sf::Mouse& mouse, sf::RenderWindow& createwindow, const Toolbar& toolbar) override;			//resize the text
+	void drawEntity(sf::RenderWindow& createwindow) override;								//draw completed text on screen
+	void resize(const sf::Mouse& mouse, sf::RenderWindow& createwindow) override;			//resize the text
 	void setMousePos(sf::RenderWindow& createwindow,const sf::Mouse& mouse);										//set the mouse position of the screen
-	void clampMousePos(const Toolbar& toolbar);																		//prevents textbox going off the boundary
+	void clampMousePos();																		//prevents textbox going off the boundary
 	void setTextColour(draw d);																						//set the colour of the text
-	void addtoString(sf::RenderWindow& createwindow, const Toolbar& toolbar);										//add cahracters to the string
-	void displayText(sf::RenderWindow& createwindow, const Toolbar& toolbar);										//shows the text that are on the screen
+	void addtoString();										//add cahracters to the string
+	void displayText(sf::RenderWindow& createwindow);										//shows the text that are on the screen
 	~Text();
 
 private:
@@ -22,8 +22,6 @@ private:
 	sf::Font font;				//load font.
 	sf::Event& event;			//event reference object
 	std::string textstring;		//store the text strign
-	int mouseposx;
-	int mouseposy;
 	static constexpr uint8_t textMinSize = 25;			//minimum text size
 	static constexpr uint8_t textMaxSize = 90;			//maximum text size
 	uint8_t textsize;									//current textsize

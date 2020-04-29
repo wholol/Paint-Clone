@@ -41,7 +41,7 @@ public:
 			*shape = p;
 			std::cout << "shape generated of type: " << typeid(**shape).name() << std::endl;
 		}
-
+		
 		else if (d == draw::spline) {
 			if (*shape != nullptr && !(std::any_of(storeEntities.cbegin(), storeEntities.cend(), [&](Entity* s) {return *shape == s; }))) {
 				std::cout << "deleting shape entity of type:" << typeid(**shape).name() << std::endl;
@@ -53,7 +53,7 @@ public:
 			*shape = p;
 			std::cout << "shape generated of type: " << typeid(**shape).name() << std::endl;
 		}
-
+		
 		else if (d == draw::circle) {
 			if (*shape != nullptr && !(std::any_of(storeEntities.cbegin(), storeEntities.cend(), [&](Entity* s) {return *shape == s; }))) {
 				std::cout << "deleting shape entity of type:" << typeid(**shape).name() << std::endl;

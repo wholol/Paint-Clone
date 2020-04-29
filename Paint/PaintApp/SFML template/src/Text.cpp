@@ -23,12 +23,12 @@ Text::Text(sf::Event& event)
 
 }
 
-void Text::drawEntity(sf::RenderWindow& createwindow, const Toolbar& toolbar)
+void Text::drawEntity(sf::RenderWindow& createwindow)
 {
 	createwindow.draw(text);
 }
 
-void Text::resize(const sf::Mouse& mouse, sf::RenderWindow& createwindow, const Toolbar& toolbar)
+void Text::resize(const sf::Mouse& mouse, sf::RenderWindow& createwindow)
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 		if (textsize >= textMaxSize) {
@@ -57,12 +57,11 @@ void Text::setMousePos(sf::RenderWindow& createwindow,const sf::Mouse& mouse)
 	mouseposy = mouse.getPosition(createwindow).y;
 }
 
-void Text::clampMousePos(const Toolbar & toolbar)
+void Text::clampMousePos()
 {
-	if (mouseposy <= toolbar.BoundaryLimit()) {
-		mouseposy = toolbar.BoundaryLimit() + 2;
+	if (mouseposy <= Limit) {
+		mouseposy = Limit;
 	}
-
 }
 
 void Text::setTextColour(draw d)
@@ -78,7 +77,7 @@ void Text::setTextColour(draw d)
 	text.setFillColor(textColor);
 }
 
-void Text::addtoString(sf::RenderWindow& createwindow, const Toolbar& toolbar)
+void Text::addtoString()
 {	
 
 	if (event.type == sf::Event::TextEntered) {
@@ -98,7 +97,7 @@ void Text::addtoString(sf::RenderWindow& createwindow, const Toolbar& toolbar)
 	text.setString(textstring);
 }
 
-void Text::displayText(sf::RenderWindow & createwindow, const Toolbar & toolbar)
+void Text::displayText(sf::RenderWindow & createwindow)
 {
 	/* the circle shape provides a visual of the cursor and textbox */
 	text.setPosition(sf::Vector2f(mouseposx, mouseposy));

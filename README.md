@@ -7,7 +7,7 @@ A simple paint clone (lesser features) written in C++ with the SFML library.
 I was also using the project to practice some manual memory management, hence the performance may not be optimal as the entities are heap allocated.
 
 ## Features  
-The program consists of entitiess to draw, including:  
+The program's features include:  
 > text  
 > airbrush  
 > paint  

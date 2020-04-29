@@ -2,5 +2,5 @@
 Work in Progree: A clone(ish) for the Microsoft Paint Application  
   
   
-![](Paint/Paint/Paint/images/paintapp.png)
+![](Paint/Paint/Paint/images/shapetoolbar.png)
 

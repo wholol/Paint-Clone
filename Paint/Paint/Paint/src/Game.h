@@ -21,6 +21,9 @@ public:
 	Game(const Game& other) = delete;					//no deep copying a game object
 	Game(Game &&other) = delete;						//no moving game object
 	~Game();
+	
+	
+	void main_menu();
 	void update();					//update logic
 	void render();					//rende r
 	bool quit();					//quit the window

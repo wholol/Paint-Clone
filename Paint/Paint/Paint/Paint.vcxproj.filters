@@ -87,4 +87,41 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Font Include="src\Bebas-Regular.otf" />
+    <Font Include="src\Bebas-Regular.ttf" />
+    <Font Include="fonts\Bebas-Regular.otf" />
+    <Font Include="fonts\Bebas-Regular.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="src\EatenSound.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="src\misctoolbar.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="src\shapetoolbar.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="image\misctoolbar.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="image\shapetoolbar.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\sfml-audio-2.dll" />
+    <None Include="src\sfml-audio-d-2.dll" />
+    <None Include="src\sfml-graphics-2.dll" />
+    <None Include="src\sfml-graphics-d-2.dll" />
+    <None Include="src\sfml-network-2.dll" />
+    <None Include="src\sfml-network-d-2.dll" />
+    <None Include="src\sfml-system-2.dll" />
+    <None Include="src\sfml-system-d-2.dll" />
+    <None Include="src\sfml-window-2.dll" />
+    <None Include="src\sfml-window-d-2.dll" />
+  </ItemGroup>
 </Project>

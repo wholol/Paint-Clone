@@ -5,12 +5,14 @@
 
 Text::Text(sf::Event& event) 
 	:event(event) {
-	if (!font.loadFromFile("Bebas-Regular.ttf")) {
+	if (!font.loadFromFile("fonts/Bebas-Regular.ttf")) {
 		std::cout << "failed to load font file" << std::endl;
 	}
+
 	textsize = textMinSize;
 	text.setCharacterSize(textsize); // in pixels, not points!
 	text.setFont(font);				//initialzie font type
+
 	/*insert to unordered map*/
 	colourmap.insert(std::make_pair(draw::redpaint, sf::Color::Red));
 	colourmap.insert(std::make_pair(draw::blackpaint, sf::Color::Black));

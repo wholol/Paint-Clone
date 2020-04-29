@@ -1,14 +1,21 @@
 #include "Toolbar.h"
-
+#include <assert.h>
 
 Toolbar::Toolbar(int screenwidth, int screenheight) :
 	PaintTileWidth(screenwidth / 8),
 	PaintTileHeight(PaintTileWidth / 2),
 	drawrect(sf::Vector2f(PaintTileWidth, PaintTileHeight))
 {
-	shapetext.loadFromFile("shapetoolbar.png");
+
+	const std::string shapetoolbar = "image/shapetoolbar.png";
+	const std::string misctoolbar = "image/misctoolbar.png";
+
+	assert(shapetoolbar == "image/shapetoolbar.png");
+	assert(misctoolbar == "image/misctoolbar.png");
+
+	shapetext.loadFromFile(shapetoolbar);
 	shapesprite.setTexture(shapetext);
-	misctext.loadFromFile("misctoolbar.png");
+	misctext.loadFromFile(misctoolbar);
 	miscsprite.setTexture(misctext);
 
 	colormap.insert({ std::make_pair(4, 0), sf::Color::Red } );

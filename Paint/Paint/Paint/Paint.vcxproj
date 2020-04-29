@@ -75,21 +75,29 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)</OutDir>
     <IntDir>$(SolutionDir)bin\intermediates$(Platform)\$(Configuration)</IntDir>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)</OutDir>
     <IntDir>$(SolutionDir)bin\intermediates$(Platform)\$(Configuration)</IntDir>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)</OutDir>
     <IntDir>$(SolutionDir)bin\intermediates$(Platform)\$(Configuration)</IntDir>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)</OutDir>
     <IntDir>$(SolutionDir)bin\intermediates$(Platform)\$(Configuration)</IntDir>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -206,6 +214,33 @@
     <ClCompile Include="src\Text.cpp" />
     <ClCompile Include="src\Toolbar.cpp" />
     <ClCompile Include="src\Undo.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="fonts\Bebas-Regular.otf" />
+    <Font Include="fonts\Bebas-Regular.ttf" />
+    <Font Include="src\Bebas-Regular.otf" />
+    <Font Include="src\Bebas-Regular.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="src\EatenSound.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="image\misctoolbar.png" />
+    <Image Include="image\shapetoolbar.png" />
+    <Image Include="src\misctoolbar.png" />
+    <Image Include="src\shapetoolbar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\sfml-audio-2.dll" />
+    <None Include="src\sfml-audio-d-2.dll" />
+    <None Include="src\sfml-graphics-2.dll" />
+    <None Include="src\sfml-graphics-d-2.dll" />
+    <None Include="src\sfml-network-2.dll" />
+    <None Include="src\sfml-network-d-2.dll" />
+    <None Include="src\sfml-system-2.dll" />
+    <None Include="src\sfml-system-d-2.dll" />
+    <None Include="src\sfml-window-2.dll" />
+    <None Include="src\sfml-window-d-2.dll" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,6 +1,6 @@
 # Paint-Clone
-Work in Progree: A clone(ish) for the Microsoft Paint Application  
+A simple paint clone (lesser features) written in C++ with the SFML library.
   
   
-![](Paint/Paint/Paint/images/shapetoolbar.png)
+<img src="Paint/Paint/Paint/image/paintapp.png">
 

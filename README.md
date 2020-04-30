@@ -4,7 +4,7 @@ A simple paint clone (lesser features) written in C++ with the SFML library.
 <img src="Paint/Paint/Paint/image/paintapp.png">  
   
 ## Using the program    
-Visual Studio 2017 is used. Download the file and uncrompress it, and run Paint.sln.
+Visual Studio 2017 is used. Download master branch and uncrompress it, and run Paint.sln.
   
 ## Performance Note
 I was also using the project to practice some manual memory management, hence the performance may not be optimal as the entities are heap allocated.

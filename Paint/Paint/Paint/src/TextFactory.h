@@ -13,9 +13,8 @@ public:
 
 		if (d == draw::text) {		//delete any text objects that ar not emplaced back into the storeEntities vector.
 			if (*text != nullptr && !(std::any_of(storeEntities.cbegin(), storeEntities.cend(), [&](Entity* s) {return *text == s; }))) {
-				std::cout << "deleting entity of type:" << typeid(**text).name() << std::endl;
-				delete *text;			//delete instatiated shapes that are not emplaced back into the store shapes vector
-				*text = nullptr;
+				*text = t;
+				return;
 			}
 
 			t = new Text(e);

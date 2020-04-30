@@ -18,7 +18,21 @@ public:
 	
 	void getObject(Shape** shape, const std::vector<Entity*>& storeEntities, draw d) {
 
+		if (*shape) {
+			typeID = typeid(**shape).name();
+		}
+
+		else {
+			typeID = "none";
+		}
+
 		if (d == draw::line) {	//before generating a shape, ensure that shape memory is freed (only generates when usr presses the rectangle for line!).
+			
+			if (typeID == "struct line"){
+				*shape = p;
+					return;
+			}
+			
 			if (*shape != nullptr && !(std::any_of(storeEntities.cbegin(), storeEntities.cend(), [&](Entity* s) {return *shape == s; }))) {
 				std::cout << "deleting shape entity of type:" << typeid(**shape).name() << std::endl;
 				delete *shape;			//delete instatiated shapes that are not emplaced back into the store shapes vector
@@ -28,33 +42,52 @@ public:
 			p = new line();
 			*shape = p;
 			std::cout << "shape generated of type: " << typeid(**shape).name() << std::endl;
+			
 		}
 
 		else if (d == draw::cube) {
-			if (*shape != nullptr && !(std::any_of(storeEntities.cbegin(), storeEntities.cend(), [&](Entity* s) {return *shape == s; }))) {
+
+			if (typeID == "struct cube") {
+				*shape = p;
+				return;
+			}
+
+			 if (*shape != nullptr && !(std::any_of(storeEntities.cbegin(), storeEntities.cend(), [&](Entity* s) {return *shape == s; }))) {
 				std::cout << "deleting shape entity of type:" << typeid(**shape).name() << std::endl;
 				delete *shape;			//delete instatiated shapes that are not emplaced back into the store shapes vector
 				*shape = nullptr;
-			}
-
+			 }
+	
 			p = new cube();
 			*shape = p;
 			std::cout << "shape generated of type: " << typeid(**shape).name() << std::endl;
 		}
 		
 		else if (d == draw::spline) {
+			if (typeID == "struct spline") {
+				*shape = p;
+				return;
+			}
+
 			if (*shape != nullptr && !(std::any_of(storeEntities.cbegin(), storeEntities.cend(), [&](Entity* s) {return *shape == s; }))) {
 				std::cout << "deleting shape entity of type:" << typeid(**shape).name() << std::endl;
 				delete *shape;			//delete instatiated shapes that are not emplaced back into the store shapes vector
 				*shape = nullptr;
 			}
-	
+
 			p = new spline();
 			*shape = p;
 			std::cout << "shape generated of type: " << typeid(**shape).name() << std::endl;
+			
 		}
 		
 		else if (d == draw::circle) {
+
+			if (typeID == "struct circle") {
+				*shape = p;
+				return;
+			}
+
 			if (*shape != nullptr && !(std::any_of(storeEntities.cbegin(), storeEntities.cend(), [&](Entity* s) {return *shape == s; }))) {
 				std::cout << "deleting shape entity of type:" << typeid(**shape).name() << std::endl;
 				delete *shape;			//delete instatiated shapes that are not emplaced back into the store shapes vector
@@ -64,6 +97,7 @@ public:
 			p = new circle();
 			*shape = p;
 			std::cout << "shape generated of type: " << typeid(**shape).name() << std::endl;
+			
 		}
 	}
 
@@ -87,5 +121,6 @@ private:
 	std::unordered_map<draw, int> shapestatuspair;
 	Shape* p = nullptr;
 	int stat;
+	std::string typeID;
 
 };

@@ -1,5 +1,6 @@
 #include "AirBrush.h"
 #include <iostream>
+
 AirBrush::AirBrush(AirBrush* prev)
 	:points(sf::Points, AirBrushMaxDimension * AirBrushMaxDimension),
 	rng(std::random_device() ()),

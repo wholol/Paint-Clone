@@ -22,7 +22,6 @@ void Undo::pop()
 		delete temp;
 		temp = nullptr;
 	}
-
 }
 
 void Undo::clear()

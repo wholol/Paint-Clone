@@ -1,4 +1,3 @@
-#include <vector>
 #include <SFML/Graphics.hpp>
 #include <cmath>
 #include "Shape.h"
